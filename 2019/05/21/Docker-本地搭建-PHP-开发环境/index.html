@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="本篇文章更多是为了了解 Docker ，学习怎么部署应用，真的要使用 docker 作为本地的开发环境的话，建议使用 laradock  环境要求 Docker 可以正常使用 (docker --version)  建议配置国内的镜像源  前期准备 先拉取我们要安装的软件 123docker pull nginxdocker pull php:7.2-fpmdocker pull mysql5.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-22T08:25:13.058Z">
+<meta property="og:updated_time" content="2019-05-22T08:30:14.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 本地搭建 PHP 开发环境">
 <meta name="twitter:description" content="本篇文章更多是为了了解 Docker ，学习怎么部署应用，真的要使用 docker 作为本地的开发环境的话，建议使用 laradock  环境要求 Docker 可以正常使用 (docker --version)  建议配置国内的镜像源  前期准备 先拉取我们要安装的软件 123docker pull nginxdocker pull php:7.2-fpmdocker pull mysql5.">
@@ -196,7 +196,7 @@ var _hmt = _hmt || [];
 <h3 id="创建运行-PHP-容器"><a href="#创建运行-PHP-容器" class="headerlink" title="创建运行 PHP 容器"></a>创建运行 PHP 容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name php -d -p 9000:9000 -v /Users/joyHe/app/php:/usr/local/etc/php -v /Users/joyHe/app/www:/var/www/html php:7.2-fpm</span><br></pre></td></tr></table></figure>
 <h3 id="创建运行-Mysql-容器"><a href="#创建运行-Mysql-容器" class="headerlink" title="创建运行 Mysql 容器"></a>创建运行 Mysql 容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -v /Users/joyHe/app/mysql:/etc/mysql mysql:5.7</span><br></pre></td></tr></table></figure>
 <h3 id="容器之间的相互通信"><a href="#容器之间的相互通信" class="headerlink" title="容器之间的相互通信"></a>容器之间的相互通信</h3><blockquote>
-<p>Note: 创建容器的时候，如果本级端口已经本占用了，那就修改为其他端口</p>
+<p>Note: 创建容器的时候，如果本机端口已经被占用了，那就修改为其他端口</p>
 </blockquote>
 <p>到目前为止我们的三个核心容器已经搭建好了，但是访问 <a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> 会显示 403，这是因为我们的 <code>~/app/www</code> 目录下还没有任何的内容，尝试在下面新建 <code>index.php</code> 看看效果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch index.php</span><br><span class="line">vim index.php</span><br></pre></td></tr></table></figure>
