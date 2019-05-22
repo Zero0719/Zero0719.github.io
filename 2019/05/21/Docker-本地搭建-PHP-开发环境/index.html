@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="本篇文章更多是为了了解 Docker ，学习怎么部署应用，真的要使用 docker 作为本地的开发环境的话，建议使用 laradock  环境要求 Docker 可以正常使用 (docker --version)  建议配置国内的镜像源  前期准备 先拉取我们要安装的软件 123docker pull nginxdocker pull php:7.2-fpmdocker pull mysql5.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-22T08:18:59.631Z">
+<meta property="og:updated_time" content="2019-05-22T08:21:47.858Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 本地搭建 PHP 开发环境">
 <meta name="twitter:description" content="本篇文章更多是为了了解 Docker ，学习怎么部署应用，真的要使用 docker 作为本地的开发环境的话，建议使用 laradock  环境要求 Docker 可以正常使用 (docker --version)  建议配置国内的镜像源  前期准备 先拉取我们要安装的软件 123docker pull nginxdocker pull php:7.2-fpmdocker pull mysql5.">
@@ -223,9 +223,9 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">touch ~/app/www/test_mysql.php</span><br><span class="line"></span><br><span class="line"># ~/app/www/test_mysql.php 文件内容</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$db_drivet = &apos;mysql&apos;;</span><br><span class="line">$db_host = &apos;172.17.0.4&apos;; // mysql 容器的ip地址</span><br><span class="line">$db_name = &apos;mysql&apos;;</span><br><span class="line">$db_user = &apos;root&apos;;</span><br><span class="line">$db_password = &apos;123456&apos;;</span><br><span class="line">$dsn = &quot;$db_drivet:host=$db_host;dbname=$db_name&quot;;</span><br><span class="line"></span><br><span class="line">try &#123;</span><br><span class="line">    $db = new PDO($dsn, $db_user, $db_password);</span><br><span class="line">    echo &apos;连接成功&apos;;</span><br><span class="line">    var_dump($db);</span><br><span class="line">&#125; catch (PDOException $e) &#123;</span><br><span class="line">    echo $e-&gt;getMessage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>这时候访问 <a href="http://localhost/test_mysql.php" target="_blank" rel="noopener">http://localhost/test_mysql.php</a> 会提示 <code>could not find driver</code> 找不到驱动的错误，这是因为我们的 <code>PHP</code> 容器中缺少了 <code>pdo_mysql</code> 扩展。</p>
+<p>这时候访问 <a href="http://localhost/test_mysql.php" target="_blank" rel="noopener">http://localhost/test_mysql.php</a> 会提示 <code>could not find driver</code> 找不到驱动的错误，这是因为我们的 <code>PHP</code> 容器中缺少了 <code>pdo_mysql</code> 扩展</p>
 <ol start="3">
-<li><p>安装 PHP pdo_mysql 扩展</p>
+<li><p>安装 <strong>PHP pdo_mysql</strong> 扩展</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec php docker-php-ext-install pdo_mysql</span><br><span class="line"></span><br><span class="line"># docker-php-ext-install 这是 docker php 官方为我们提供的一个安装扩展的快捷命令</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重启 PHP</p>
