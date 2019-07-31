@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="vscode 远程开发的原理就是通过编辑器 ssh 连接到服务器，然后选择要编辑的项目。  环境 OS: mac 编辑器: Visual Studio Code 远程服务器一台  详细步骤 首先确定远程服务器已经安装好了 ssh 服务，并且已经启动(如果没有就先安装服务嘛) 1ps aux | grep ssh  配置本地免密登陆服务器 1ssh-copy-id -i ~/.ssh/id_rsa">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-31T06:25:15.129Z">
+<meta property="og:updated_time" content="2019-07-31T06:30:40.214Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vscode 远程开发">
 <meta name="twitter:description" content="vscode 远程开发的原理就是通过编辑器 ssh 连接到服务器，然后选择要编辑的项目。  环境 OS: mac 编辑器: Visual Studio Code 远程服务器一台  详细步骤 首先确定远程服务器已经安装好了 ssh 服务，并且已经启动(如果没有就先安装服务嘛) 1ps aux | grep ssh  配置本地免密登陆服务器 1ssh-copy-id -i ~/.ssh/id_rsa">
@@ -186,13 +186,11 @@ var _hmt = _hmt || [];
 <li><p>配置本地免密登陆服务器</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub ubuntu@127.0.0.1 # 换成自己的远程服务器地址以及要登陆的账号(第一次需要输入密码)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>测试一下本地能不能连接</p>
+<li><p>测试一下本地能不能连接<br>如果连接不上，说明有地方配置错了，根据提示一步一步来排查(<a href="https://zero0719.github.io/2019/05/25/Linux-%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86/" target="_blank" rel="noopener">Linux免密登陆</a>)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh ubuntu@127.0.0.1</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<p>如果连接不上，说明有地方配置错了，根据提示一步一步来排查(<a href="https://zero0719.github.io/2019/05/25/Linux-%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86/" target="_blank" rel="noopener">Linux免密登陆</a>)</p>
-<ol start="4">
-<li>vscode 下载插件 Remote Development<br>这个插件会附加帮你安装几个插件，比如 Remote - SSH</li>
+<li><p>vscode 下载插件 Remote Development<br>这个插件会附加帮你安装几个插件，比如 Remote - SSH</p>
+</li>
 </ol>
 <p>安装完成之后按 “F1” 键，输入 <code>Remote-SSH:Connect....</code> 找到 <code>Connect to host</code> 回车，再输入 <a href="mailto:`ubuntu@127.0.0.1" target="_blank" rel="noopener">`ubuntu@127.0.0.1</a>`，如果能成功连上你就可以看到服务器上的目录相关信息了，选择自己的要编辑的目录即可。</p>
 
