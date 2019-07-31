@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="Github 配置建立 Github 仓库Github 帐号注册步骤这里就不写了。 建立一个新的仓库，仓库命名是 你的github用户名.github.io，例如 joyhe.github.io （注意，这里一定要这么命名仓库，我们后面会通过这个地址直接访问我们的博客） 给 github 添加 ssh key为了后面能够使用 hexo 的一键部署命令，我们这里需要在 github 中添加我们机子的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-16T03:29:30.189Z">
+<meta property="og:updated_time" content="2019-07-31T05:56:17.971Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo+github搭建个人静态博客">
 <meta name="twitter:description" content="Github 配置建立 Github 仓库Github 帐号注册步骤这里就不写了。 建立一个新的仓库，仓库命名是 你的github用户名.github.io，例如 joyhe.github.io （注意，这里一定要这么命名仓库，我们后面会通过这个地址直接访问我们的博客） 给 github 添加 ssh key为了后面能够使用 hexo 的一键部署命令，我们这里需要在 github 中添加我们机子的">
@@ -186,17 +186,16 @@ var _hmt = _hmt || [];
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog # 会在当前目录新建一个 blog 目录，稍等一会，就会生成 hexo 项目的目录和文件内容</span><br></pre></td></tr></table></figure>
 <ol start="2">
-<li>md 文件生成 html 文件 </li>
-</ol>
+<li><p>md 文件生成 html 文件 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 我们要发布的文章都写在 source 目录中，以 md 文件格式编辑</span><br><span class="line"># 在 init 时就有一个默认文件 Hello World 生成了，后面可以自行删掉</span><br><span class="line">hexo generate # hexo g</span><br><span class="line"># 将 source 中的 md 文件生成 html 文件</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>本地查看</li>
-</ol>
+</li>
+<li><p>本地查看</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo server # hexo s</span><br><span class="line"># 默认是 http://localhost:4000</span><br><span class="line"># 这里只是让你本地预览，后面不需要了就 ctrl+c 断开</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>部署到 github</li>
-</ol>
+</li>
+<li><p>部署到 github</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 编辑根目录下 _config.yml 文件</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:xxxxxx/xxxxxxx.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line"># 仓库地址是你前面在 github 新建的仓库</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 <p>安装发布插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 要在网站根目录下执行命令</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy # hexo d</span><br></pre></td></tr></table></figure>
 <p>到此，整个流程就完成了，可以看看你的仓库项目文件内容。</p>
@@ -372,22 +371,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">DOCKER</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Anconda</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Python</a>
               </li>
              
@@ -396,11 +379,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+                <a href="javascript:void(0)" class="js-tag color3">Anconda</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">DOCKER</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
               </li>
             
             <div class="clearfix"></div>
