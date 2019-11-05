@@ -174,11 +174,10 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep &quot;php xxxxxxxxxxxxxx&quot;</span><br><span class="line"># 发现进程还是运行在的，排除进程挂掉导致</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看队列是否有正常消费</p>
-</li>
-</ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">llen queue_test</span><br><span class="line"># 发现当前队列数量为0，我在程序中每次取出队列数据时，会记录到一个文件当中，然后发现对比，队列消费是一直正常的，所以这个问题也排除</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>查看程序运行 log<br>最终查找 runtime log 的时候发现出现了大量的 <strong>MySQL server has gone away</strong> 报错，因此定位到产生该问题的原因，就是数据库的连接断开了</li>
+</li>
+<li><p>查看程序运行 log<br>最终查找 runtime log 的时候发现出现了大量的 <strong>MySQL server has gone away</strong> 报错，因此定位到产生该问题的原因，就是数据库的连接断开了</p>
+</li>
 </ol>
 <h3 id="Mysql-的超时设置"><a href="#Mysql-的超时设置" class="headerlink" title="Mysql 的超时设置"></a>Mysql 的超时设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%timeout%&apos;;</span><br></pre></td></tr></table></figure>
 <p>执行后，我们留意一下 <strong>interactive_timeout</strong> 和 <strong>wait_timeout</strong> 这两个参数的值，它们都会影响 mysql 的连接时间，具体的描述与区别，请在官网手册中查看</p>

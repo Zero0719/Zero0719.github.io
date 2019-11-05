@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。 查找问题 查看进程是否已经挂了 12ps -ef | grep &amp;quot;php xxxxxxxxxxxxxx&amp;quot;# 发现">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-05T03:29:46.745Z">
+<meta property="og:updated_time" content="2019-11-05T03:32:24.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次守护进程操作mysql的坑">
 <meta name="twitter:description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。 查找问题 查看进程是否已经挂了 12ps -ef | grep &amp;quot;php xxxxxxxxxxxxxx&amp;quot;# 发现">
@@ -177,11 +177,10 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep &quot;php xxxxxxxxxxxxxx&quot;</span><br><span class="line"># 发现进程还是运行在的，排除进程挂掉导致</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看队列是否有正常消费</p>
-</li>
-</ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">llen queue_test</span><br><span class="line"># 发现当前队列数量为0，我在程序中每次取出队列数据时，会记录到一个文件当中，然后发现对比，队列消费是一直正常的，所以这个问题也排除</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>查看程序运行 log<br>最终查找 runtime log 的时候发现出现了大量的 <strong>MySQL server has gone away</strong> 报错，因此定位到产生该问题的原因，就是数据库的连接断开了</li>
+</li>
+<li><p>查看程序运行 log<br>最终查找 runtime log 的时候发现出现了大量的 <strong>MySQL server has gone away</strong> 报错，因此定位到产生该问题的原因，就是数据库的连接断开了</p>
+</li>
 </ol>
 <h3 id="Mysql-的超时设置"><a href="#Mysql-的超时设置" class="headerlink" title="Mysql 的超时设置"></a>Mysql 的超时设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%timeout%&apos;;</span><br></pre></td></tr></table></figure>
 <p>执行后，我们留意一下 <strong>interactive_timeout</strong> 和 <strong>wait_timeout</strong> 这两个参数的值，它们都会影响 mysql 的连接时间，具体的描述与区别，请在官网手册中查看</p>
