@@ -9,7 +9,7 @@
   <title>记一次守护进程操作mysql的坑 | 与人为善</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。 查找问题 查看进程是否已经挂了 12ps -ef | grep &amp;quot;php xxxxxxxxxxxxxx&amp;quot;# 发现">
-<meta name="keywords" content="PHP,Mysql">
+<meta name="keywords" content="Mysql,PHP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次守护进程操作mysql的坑">
 <meta property="og:url" content="http://yoursite.com/2019/11/05/记一次守护进程操作mysql的坑/index.html">
@@ -211,11 +211,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		
 		</ul>
@@ -233,6 +233,15 @@ var _hmt = _hmt || [];
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/12/07/Linux-常用命令/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux 常用命令
+        
+      </div>
+    </a>
   
   
     <a href="/2019/08/15/Ubuntu-下安装Nodejs-Npm-Yarn/" id="article-nav-older" class="article-nav-link-wrap">
@@ -354,6 +363,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Anconda</a>
               </li>
              
@@ -370,15 +387,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
               </li>
              
               <li class="article-tag-list-item">
