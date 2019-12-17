@@ -343,7 +343,7 @@ var _hmt = _hmt || [];
 <li><p>查看程序运行 log<br>最终查找 runtime log 的时候发现出现了大量的 <strong>MySQL server has gone away</strong> 报错，因此定位到产生该问题的原因，就是数据库的连接断开了</p>
 </li>
 </ol>
-<p><--more--></--more--></p>
+<p>more</p>
 <h3 id="Mysql-的超时设置"><a href="#Mysql-的超时设置" class="headerlink" title="Mysql 的超时设置"></a>Mysql 的超时设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%timeout%&apos;;</span><br></pre></td></tr></table></figure>
 <p>执行后，我们留意一下 <strong>interactive_timeout</strong> 和 <strong>wait_timeout</strong> 这两个参数的值，它们都会影响 mysql 的连接时间，具体的描述与区别，请在官网手册中查看</p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然已经定位到数据写入失败的原因是因为数据库的连接已经断开了，那么我们程序中只要多做一些处理，进行数据库连接的检查，然后进行重连即可</p>
