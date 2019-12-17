@@ -8,19 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Vue-cli 3.0 搭建的项目引入 tailwindcss | 与人为善</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="环境 vue-cli 3.0  搭建项目12345vue create tailwind-test # 这里默认配置即可cd tailwind-testnpm run serve 本地项目">
+  <meta name="description" content="环境 vue-cli 3.0  Vue-cli 搭建项目12345vue create tailwind-test # 这里默认配置即可cd tailwind-testnpm run serve 本地项目">
 <meta name="keywords" content="vue,tailwindcss">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue-cli 3.0 搭建的项目引入 tailwindcss">
 <meta property="og:url" content="http://yoursite.com/2019/12/17/Vue-cli-3-0-搭建的项目引入-tailwindcss/index.html">
 <meta property="og:site_name" content="与人为善">
-<meta property="og:description" content="环境 vue-cli 3.0  搭建项目12345vue create tailwind-test # 这里默认配置即可cd tailwind-testnpm run serve 本地项目">
+<meta property="og:description" content="环境 vue-cli 3.0  Vue-cli 搭建项目12345vue create tailwind-test # 这里默认配置即可cd tailwind-testnpm run serve 本地项目">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://q2nhqymoe.bkt.clouddn.com/images/kayuho/Vue-cli-3-0-%E6%90%AD%E5%BB%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5-tailwindcss/1.png">
-<meta property="og:updated_time" content="2019-12-17T11:13:02.761Z">
+<meta property="og:image" content="http://q2nhqymoe.bkt.clouddn.com/images/kayuho/Vue-cli-3-0-搭建的项目引入-tailwindcss/2.png">
+<meta property="og:updated_time" content="2019-12-17T11:57:57.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue-cli 3.0 搭建的项目引入 tailwindcss">
-<meta name="twitter:description" content="环境 vue-cli 3.0  搭建项目12345vue create tailwind-test # 这里默认配置即可cd tailwind-testnpm run serve 本地项目">
+<meta name="twitter:description" content="环境 vue-cli 3.0  Vue-cli 搭建项目12345vue create tailwind-test # 这里默认配置即可cd tailwind-testnpm run serve 本地项目">
 <meta name="twitter:image" content="http://q2nhqymoe.bkt.clouddn.com/images/kayuho/Vue-cli-3-0-%E6%90%AD%E5%BB%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5-tailwindcss/1.png">
   
     <link rel="alternative" href="/atom.xml" title="与人为善" type="application/atom+xml">
@@ -166,9 +167,28 @@
         <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
 <li>vue-cli 3.0</li>
 </ul>
-<h2 id="搭建项目"><a href="#搭建项目" class="headerlink" title="搭建项目"></a>搭建项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vue create tailwind-test # 这里默认配置即可</span><br><span class="line"></span><br><span class="line">cd tailwind-test</span><br><span class="line"></span><br><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-cli-搭建项目"><a href="#Vue-cli-搭建项目" class="headerlink" title="Vue-cli 搭建项目"></a>Vue-cli 搭建项目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vue create tailwind-test # 这里默认配置即可</span><br><span class="line"></span><br><span class="line">cd tailwind-test</span><br><span class="line"></span><br><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
 <p><a href="http://localhost:8080/" target="_blank" rel="noopener">本地项目</a></p>
 <p><img src="http://q2nhqymoe.bkt.clouddn.com/images/kayuho/Vue-cli-3-0-%E6%90%AD%E5%BB%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5-tailwindcss/1.png" alt></p>
+<a id="more"></a>
+<h3 id="下载-tailwindcss"><a href="#下载-tailwindcss" class="headerlink" title="下载 tailwindcss"></a>下载 tailwindcss</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install tailwindcss --save-dev</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add tailwindcss --dev</span><br></pre></td></tr></table></figure>
+<h3 id="创建-tailwindcss-的配置文件"><a href="#创建-tailwindcss-的配置文件" class="headerlink" title="创建 tailwindcss 的配置文件"></a>创建 tailwindcss 的配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./node_modules/.bin/tailwind init tailwind.js</span><br></pre></td></tr></table></figure>
+<p>or </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx tailwind init tailwind.config.js --full</span><br></pre></td></tr></table></figure>
+<h3 id="配置-PostCSS"><a href="#配置-PostCSS" class="headerlink" title="配置 PostCSS"></a>配置 PostCSS</h3><p>新建文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch postcss.config.js</span><br></pre></td></tr></table></figure>
+<p>写入以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const tailwindcss = require(&quot;tailwindcss&quot;);</span><br><span class="line">const autoprefixer = require(&quot;autoprefixer&quot;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">        tailwindcss(&quot;./tailwind.js&quot;),</span><br><span class="line">        autoprefixer(&#123;</span><br><span class="line">            add: true,</span><br><span class="line">            grid: true</span><br><span class="line">        &#125;),</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="创建-main-css"><a href="#创建-main-css" class="headerlink" title="创建 main.css"></a>创建 main.css</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch src/main.css</span><br></pre></td></tr></table></figure>
+<p>修改文件内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@tailwind base;</span><br><span class="line">@tailwind components;</span><br><span class="line">@tailwind utilities;</span><br></pre></td></tr></table></figure></p>
+<h3 id="在-main-js-引入样式文件"><a href="#在-main-js-引入样式文件" class="headerlink" title="在 main.js 引入样式文件"></a>在 main.js 引入样式文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">import &apos;./main.css&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="修改-src-components-HelloWorld-vue-看看是否生效"><a href="#修改-src-components-HelloWorld-vue-看看是否生效" class="headerlink" title="修改 src/components/HelloWorld.vue 看看是否生效"></a>修改 src/components/HelloWorld.vue 看看是否生效</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;hello&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;w-full h-10 bg-red-500&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="重新编译"><a href="#重新编译" class="headerlink" title="重新编译"></a>重新编译</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<p>如无意外效果如下:</p>
+<p><img src="http://q2nhqymoe.bkt.clouddn.com/images/kayuho/Vue-cli-3-0-搭建的项目引入-tailwindcss/2.png" alt></p>
+<p><a href="https://medium.com/@andreaminato95/setting-up-a-vue-cli-3-app-with-tailwindcss-and-purgecss-286688dcd8c1" target="_blank" rel="noopener">参考链接</a></p>
 
       
 
