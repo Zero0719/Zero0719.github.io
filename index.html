@@ -148,6 +148,88 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Vue-cli-3-0-搭建的项目引入-tailwindcss" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/17/Vue-cli-3-0-搭建的项目引入-tailwindcss/">Vue-cli 3.0 搭建的项目引入 tailwindcss</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/17/Vue-cli-3-0-搭建的项目引入-tailwindcss/" class="archive-article-date">
+  	<time datetime="2019-12-17T08:21:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>vue-cli 3.0</li>
+</ul>
+<h2 id="搭建项目"><a href="#搭建项目" class="headerlink" title="搭建项目"></a>搭建项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vue create tailwind-test # 这里默认配置即可</span><br><span class="line"></span><br><span class="line">cd tailwind-test</span><br><span class="line"></span><br><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<p><a href="http://localhost:8080/" target="_blank" rel="noopener">本地项目</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tailwindcss</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/17/Vue-cli-3-0-搭建的项目引入-tailwindcss/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux-常用命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -251,33 +333,9 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。</p>
-<h3 id="查找问题"><a href="#查找问题" class="headerlink" title="查找问题"></a>查找问题</h3><ol>
-<li><p>查看进程是否已经挂了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep &quot;php xxxxxxxxxxxxxx&quot;</span><br><span class="line"># 发现进程还是运行在的，排除进程挂掉导致</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看队列是否有正常消费</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">llen queue_test</span><br><span class="line"># 发现当前队列数量为0，我在程序中每次取出队列数据时，会记录到一个文件当中，然后发现对比，队列消费是一直正常的，所以这个问题也排除</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看程序运行 log<br>最终查找 runtime log 的时候发现出现了大量的 <strong>MySQL server has gone away</strong> 报错，因此定位到产生该问题的原因，就是数据库的连接断开了</p>
-</li>
-</ol>
-<h3 id="Mysql-的超时设置"><a href="#Mysql-的超时设置" class="headerlink" title="Mysql 的超时设置"></a>Mysql 的超时设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%timeout%&apos;;</span><br></pre></td></tr></table></figure>
-<p>执行后，我们留意一下 <strong>interactive_timeout</strong> 和 <strong>wait_timeout</strong> 这两个参数的值，它们都会影响 mysql 的连接时间，具体的描述与区别，请在官网手册中查看</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>既然已经定位到数据写入失败的原因是因为数据库的连接已经断开了，那么我们程序中只要多做一些处理，进行数据库连接的检查，然后进行重连即可</p>
-<p>PS:守护进程与传统的web访问不一样，传统的web访问是通过php-fpm处理之后，每次都会释放资源，也就是如果涉及到数据库的操作，访问一次操作一次，操作完成之后就会销毁资源，下次再访问，又是新的连接，新的资源，但是，守护进程一旦执行之后就会加载到内存当中了。</p>
-<p>以下是伪代码，这里只说明思路：</p>
-<p>对于什么时候检测重连有两种方法：</p>
-<ol>
-<li><p>每次数据库操作之前，都进行检查<br>test.php</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    // $redis 假设这里是连接了 redis 之后的实例</span><br><span class="line">    // $db 假设db 是连接了数据库之后的实例</span><br><span class="line"></span><br><span class="line">    function checkConnect() &#123;</span><br><span class="line">        $db-&gt;query(&apos;select 1&apos;);</span><br><span class="line"></span><br><span class="line">        $error = $db-&gt;error; // 最后一次query产生的报错信息</span><br><span class="line">        $error_no = $db-&gt;errorNo(); // 最后一次query产生的报错码</span><br><span class="line"></span><br><span class="line">        if ($error_no == 2006 || $error_no == 2013 || stripos($error, &apos;MySQL server has gone away&apos;)!== false) &#123;</span><br><span class="line">            $db-&gt;reconnect(); // 进行重连</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    while(1) &#123;</span><br><span class="line">        $queue = &apos;test_queue&apos;;</span><br><span class="line"></span><br><span class="line">        $data = $redis-&gt;lpop($queue);</span><br><span class="line"></span><br><span class="line">        if ($data) &#123;</span><br><span class="line">            file_put_content(&apos;/data/logs/test_queue.log&apos;, &apos;[&apos;.date(&apos;Y-m-d H:i:s&apos;).&apos;]:&apos;.json_encode($data).PHP_EOL, FILE_APPEND);</span><br><span class="line">            // 取出队列做处理</span><br><span class="line">            checkConnect();</span><br><span class="line"></span><br><span class="line">            $db-&gt;insert(&apos;test_table&apos;, $data);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // </span><br><span class="line">            sleep(3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>每半小时进行一次检查重连<br>mysql 默认的超时时间是8小时，也有改了时间配置的，具体看情况，这里我假定半小时就够用了<br>test.php</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    // $redis 假设这里是连接了 redis 之后的实例</span><br><span class="line">    // $db 假设db 是连接了数据库之后的实例</span><br><span class="line"></span><br><span class="line">    function checkConnect() &#123;</span><br><span class="line">        $db-&gt;query(&apos;select 1&apos;);</span><br><span class="line"></span><br><span class="line">        $error = $db-&gt;error; // 最后一次query产生的报错信息</span><br><span class="line">        $error_no = $db-&gt;errorNo(); // 最后一次query产生的报错码</span><br><span class="line"></span><br><span class="line">        if ($error_no == 2006 || $error_no == 2013 || stripos($error, &apos;MySQL server has gone away&apos;)!== false) &#123;</span><br><span class="line">            $db-&gt;reconnect(); // 进行重连</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    while(1) &#123;</span><br><span class="line">        $queue = &apos;test_queue&apos;;</span><br><span class="line"></span><br><span class="line">        $data = $redis-&gt;lpop($queue);</span><br><span class="line"></span><br><span class="line">        $start_time = time();</span><br><span class="line"></span><br><span class="line">        if ($data) &#123;</span><br><span class="line">            file_put_content(&apos;/data/logs/test_queue.log&apos;, &apos;[&apos;.date(&apos;Y-m-d H:i:s&apos;).&apos;]:&apos;.json_encode($data).PHP_EOL, FILE_APPEND);</span><br><span class="line">            // 取出队列做处理</span><br><span class="line">            $now_time = time();</span><br><span class="line"></span><br><span class="line">            if ($now_time - $start_time &gt;= 1800) &#123;</span><br><span class="line">                checkConnect();</span><br><span class="line">                $start_time = $now_time;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            $db-&gt;insert(&apos;test_table&apos;, $data);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // </span><br><span class="line">            sleep(3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>执行脚本进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php test.php</span><br></pre></td></tr></table></figure></p>
-<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>加了重连机制之后，观察了好长一段时间，数据都能持续写入，说明代码优化是有效果的。<br>记录一下，方便以后查阅。</p>
-
+        
+          <a class="article-more-a" href="/2019/11/05/记一次守护进程操作mysql的坑/#more">more >></a>
+        
       
 
       
@@ -290,11 +348,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
         		</li>
       		
 		</ul>
@@ -1068,119 +1126,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-hexo-github搭建个人静态博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/16/hexo-github搭建个人静态博客/">hexo+github搭建个人静态博客</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/16/hexo-github搭建个人静态博客/" class="archive-article-date">
-  	<time datetime="2019-05-16T01:44:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Github-配置"><a href="#Github-配置" class="headerlink" title="Github 配置"></a>Github 配置</h2><h4 id="建立-Github-仓库"><a href="#建立-Github-仓库" class="headerlink" title="建立 Github 仓库"></a>建立 Github 仓库</h4><p>Github 帐号注册步骤这里就不写了。</p>
-<p>建立一个新的仓库，仓库命名是 <strong>你的github用户名.github.io</strong>，例如 <strong>joyhe.github.io</strong> （注意，这里一定要这么命名仓库，我们后面会通过这个地址直接访问我们的博客）</p>
-<h4 id="给-github-添加-ssh-key"><a href="#给-github-添加-ssh-key" class="headerlink" title="给 github 添加 ssh key"></a>给 github 添加 ssh key</h4><p>为了后面能够使用 <strong>hexo</strong> 的一键部署命令，我们这里需要在 <strong>github</strong> 中添加我们机子的公钥串（添加步骤自行搜索）</p>
-<h2 id="Hexo-安装与使用"><a href="#Hexo-安装与使用" class="headerlink" title="Hexo 安装与使用"></a>Hexo 安装与使用</h2><h4 id="安装环境要求"><a href="#安装环境要求" class="headerlink" title="安装环境要求"></a>安装环境要求</h4><ul>
-<li>Node.js 6.9+</li>
-<li>npm</li>
-<li>Git</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 检查 node 是否安装</span><br><span class="line">node -v</span><br><span class="line"></span><br><span class="line"># 检查 npm 是否安装</span><br><span class="line">npm -v </span><br><span class="line"></span><br><span class="line"># 检查 git 是否安装</span><br><span class="line">git version</span><br></pre></td></tr></table></figure>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli # 注意，如果出现权限问题，请加 sudo</span><br><span class="line"></span><br><span class="line">hexo -v # 如果出现 hexo 相关信息，说明安装成功</span><br></pre></td></tr></table></figure>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><ol>
-<li><p>生成网站项目</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog # 会在当前目录新建一个 blog 目录，稍等一会，就会生成 hexo 项目的目录和文件内容</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>md 文件生成 html 文件 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 我们要发布的文章都写在 source 目录中，以 md 文件格式编辑</span><br><span class="line"># 在 init 时就有一个默认文件 Hello World 生成了，后面可以自行删掉</span><br><span class="line">hexo generate # hexo g</span><br><span class="line"># 将 source 中的 md 文件生成 html 文件</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>本地查看</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo server # hexo s</span><br><span class="line"># 默认是 http://localhost:4000</span><br><span class="line"># 这里只是让你本地预览，后面不需要了就 ctrl+c 断开</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>部署到 github</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 编辑根目录下 _config.yml 文件</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:xxxxxx/xxxxxxx.github.io.git</span><br><span class="line">  branch: master</span><br><span class="line"># 仓库地址是你前面在 github 新建的仓库</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装发布插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 要在网站根目录下执行命令</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy # hexo d</span><br></pre></td></tr></table></figure>
-<p>到此，整个流程就完成了，可以看看你的仓库项目文件内容。</p>
-<p>访问 <a href="https://xxxxx.github.io" target="_blank" rel="noopener">https://xxxxx.github.io</a> 查看网站页面</p>
-<ol start="6">
-<li>新建文章内容并发布</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;test article&quot;</span><br><span class="line"># 会在 source 目录下生成对应的 md 文件，只需要用 md 语法编辑这个文件即可</span><br><span class="line"></span><br><span class="line">hexo g -d</span><br><span class="line"># 生成 html 文件并发布</span><br></pre></td></tr></table></figure>
-<p>查看你的网站页面是否多了一篇文章(有时没那么快生效，稍等一会，可以先查看仓库的提交记录，有对应信息的话说明提交是成功的)</p>
-<h2 id="更改主题"><a href="#更改主题" class="headerlink" title="更改主题"></a>更改主题</h2><p>Hexo 的默认主题不是很好看，我们换一个主题，个人觉得 <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">yilia</a> 这个主题就很好看</p>
-<p>修改根目录下的 _config.yml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: yilia</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</span><br><span class="line"></span><br><span class="line"># 如果需要更新，执行下面命令，不需要跳过</span><br><span class="line">cd themes/yilia</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
-<p>yilia 的配置文件在 themes/yilia/_config.yml 里，里面有详细的配置注释了，自己根据需要修改即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g -d</span><br><span class="line"># 重新生成并发布，然后查看你的网站地址，如果没有生效等会再看。</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/16/hexo-github搭建个人静态博客/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1270,19 +1215,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Anconda</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1294,7 +1239,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1307,6 +1252,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Yarn</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vue</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tailwindcss</a>
               </li>
              
               <li class="article-tag-list-item">

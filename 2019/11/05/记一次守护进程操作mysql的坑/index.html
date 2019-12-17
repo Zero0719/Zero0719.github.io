@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>记一次守护进程操作mysql的坑 | 与人为善</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。 查找问题 查看进程是否已经挂了 12ps -ef | grep &amp;quot;php xxxxxxxxxxxxxx&amp;quot;# 发现">
-<meta name="keywords" content="Mysql,PHP">
+  <meta name="description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。">
+<meta name="keywords" content="PHP,Mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次守护进程操作mysql的坑">
 <meta property="og:url" content="http://yoursite.com/2019/11/05/记一次守护进程操作mysql的坑/index.html">
 <meta property="og:site_name" content="与人为善">
-<meta property="og:description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。 查找问题 查看进程是否已经挂了 12ps -ef | grep &amp;quot;php xxxxxxxxxxxxxx&amp;quot;# 发现">
+<meta property="og:description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-05T03:33:48.648Z">
+<meta property="og:updated_time" content="2019-12-17T08:40:00.944Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次守护进程操作mysql的坑">
-<meta name="twitter:description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。 查找问题 查看进程是否已经挂了 12ps -ef | grep &amp;quot;php xxxxxxxxxxxxxx&amp;quot;# 发现">
+<meta name="twitter:description" content="问题描述用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。">
   
     <link rel="alternative" href="/atom.xml" title="与人为善" type="application/atom+xml">
   
@@ -172,6 +172,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>用 PHP 写了一个常驻守护进程，一直从某个队列中取出数据，然后进行一定的处理后插入到 mysql 数据库中，脚本刚运行时，队列可以正常消费，数据也可以正常的写入到库中。但是过了一个晚上，再看数据的时候发现从某个时间点开始就没有数据记录了，然后开始查找问题。</p>
+<a id="more"></a>
 <h3 id="查找问题"><a href="#查找问题" class="headerlink" title="查找问题"></a>查找问题</h3><ol>
 <li><p>查看进程是否已经挂了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep &quot;php xxxxxxxxxxxxxx&quot;</span><br><span class="line"># 发现进程还是运行在的，排除进程挂掉导致</span><br></pre></td></tr></table></figure>
@@ -211,11 +212,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
         		</li>
       		
 		</ul>
@@ -363,19 +364,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Anconda</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -387,7 +388,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Anaconda</a>
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -400,6 +401,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Yarn</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">vue</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tailwindcss</a>
               </li>
              
               <li class="article-tag-list-item">
