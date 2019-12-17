@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="本篇文章更多是为了了解 Docker ，学习怎么部署应用，真的要使用 docker 作为本地的开发环境的话，建议使用 laradock  环境要求 Docker 可以正常使用 (docker --version)  建议配置国内的镜像源  前期准备 先拉取我们要安装的软件 123docker pull nginxdocker pull php:7.2-fpmdocker pull mysql5.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-22T08:30:14.240Z">
+<meta property="og:updated_time" content="2019-12-17T09:27:10.216Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 本地搭建 PHP 开发环境">
 <meta name="twitter:description" content="本篇文章更多是为了了解 Docker ，学习怎么部署应用，真的要使用 docker 作为本地的开发环境的话，建议使用 laradock  环境要求 Docker 可以正常使用 (docker --version)  建议配置国内的镜像源  前期准备 先拉取我们要安装的软件 123docker pull nginxdocker pull php:7.2-fpmdocker pull mysql5.">
@@ -185,6 +185,9 @@ var _hmt = _hmt || [];
 <li><p>在主机新增目录，主要用于放置各个软件的配置文件，以及存放源码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/app/www</span><br><span class="line"></span><br><span class="line"># 后续还会有 ~/app/nginx ~/app/mysql ~/app/php 目录，但是这里我们不手动建，后面从容器中复制出来</span><br></pre></td></tr></table></figure>
 </li>
+</ol>
+<a id="more"></a>
+<ol start="3">
 <li><p>先初步创建各软件的容器，复制里面的配置文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name nginx nginx</span><br><span class="line">docker run -d --name php php:7.2</span><br><span class="line">docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cd ~/app</span><br><span class="line">docker cp nginx:/etc/nginx .</span><br><span class="line">docker cp php:/usr/local/etc/php .</span><br><span class="line">docker cp mysql:/etc/mysql .</span><br></pre></td></tr></table></figure>
 </li>

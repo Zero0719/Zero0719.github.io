@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="记录 Mysql 中一些有用的命令，但是很少用到的，持续更新。  Replace批量替换更新表中某字符串内容 1234update articles set content=replace(content, &amp;apos;原内容&amp;apos;, ‘要替换的内容&amp;apos;);# 有需要可以加 where 限制update articles set content=replace(content, &amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-03T07:05:57.901Z">
+<meta property="og:updated_time" content="2019-12-17T09:27:54.517Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql 小技巧记录">
 <meta name="twitter:description" content="记录 Mysql 中一些有用的命令，但是很少用到的，持续更新。  Replace批量替换更新表中某字符串内容 1234update articles set content=replace(content, &amp;apos;原内容&amp;apos;, ‘要替换的内容&amp;apos;);# 有需要可以加 where 限制update articles set content=replace(content, &amp;">
@@ -187,6 +187,7 @@ var _hmt = _hmt || [];
 <li>%i 分钟 00-59</li>
 <li>%s 秒 00-59</li>
 </ul>
+<a id="more"></a>
 <h3 id="Mysql-导出特定-sql-语句的数据"><a href="#Mysql-导出特定-sql-语句的数据" class="headerlink" title="Mysql 导出特定 sql 语句的数据"></a>Mysql 导出特定 sql 语句的数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM test_table into OUTFILE &apos;/tmp/test_data.txt&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM test_table INTO OUTFILE &apos;tmp/test_data.txt&apos;</span><br><span class="line">-&gt; FIELDS TERMINATED BY &apos;,&apos; ENCLOSED BY &apos;&quot;&apos;</span><br><span class="line">-&gt; LINES TERMINATED BY &apos;\r\n&apos;;</span><br><span class="line"></span><br><span class="line">每个字段以逗号分割，值被双引号括起来，以 \r\n 作为换行</span><br><span class="line"></span><br><span class="line"># mysqldump</span><br><span class="line">mysqldump -uroot -p&apos;passwd&apos; database_name table_name --where=&quot;id=10&quot; &gt; temp.sql</span><br><span class="line">mysqldump -uroot -p&apos;passwd&apos; database_name table_name --where=&quot;id=15 and gender=&apos;male&apos;&quot; &gt; temp.sql</span><br></pre></td></tr></table></figure>
 <h3 id="Mysql-导出结构不导出数据"><a href="#Mysql-导出结构不导出数据" class="headerlink" title="Mysql 导出结构不导出数据"></a>Mysql 导出结构不导出数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -d database_name -uroot -p &gt; database_name.sql</span><br></pre></td></tr></table></figure>
 <h3 id="Mysql-导出数据不导出结构"><a href="#Mysql-导出数据不导出结构" class="headerlink" title="Mysql 导出数据不导出结构"></a>Mysql 导出数据不导出结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -t database_name -uroot -p &gt; database_name.sql</span><br></pre></td></tr></table></figure>

@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="与人为善">
 <meta property="og:description" content="Mac 下默认带有 Python 环境，但是可能不是你想要的版本。Anaconda是一个开源的包、环境管理器，可以用于在同一个机器上安装不同版本的软件包及其依赖，并能够在不同的环境之间切换，比如 python2.x 以及 python3.x 的环境。(其实其他操作系统下安装也是大同小异)  下载安装https://repo.anaconda.com/archive/Anaconda3-2019.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-22T11:45:34.440Z">
+<meta property="og:updated_time" content="2019-12-17T09:27:45.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac系统下安装Anconda配置多python环境">
 <meta name="twitter:description" content="Mac 下默认带有 Python 环境，但是可能不是你想要的版本。Anaconda是一个开源的包、环境管理器，可以用于在同一个机器上安装不同版本的软件包及其依赖，并能够在不同的环境之间切换，比如 python2.x 以及 python3.x 的环境。(其实其他操作系统下安装也是大同小异)  下载安装https://repo.anaconda.com/archive/Anaconda3-2019.">
@@ -179,6 +179,7 @@ var _hmt = _hmt || [];
 <p>在应用程序中找到对应程序打开，在菜单栏的 <strong>Environments</strong> 中会看到已经有一个默认安装的 <strong>base</strong> 环境，这个环境其实就是 <strong>python3.7</strong> 的运行环境，因为我们下载地址就是这个版本的。</p>
 <h3 id="终端中操作"><a href="#终端中操作" class="headerlink" title="终端中操作"></a>终端中操作</h3><p>我们基本不会用到图形界面，我们切换环境，安装扩展包等，基本上都是通过命令行去操作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 先检查命令是否可用</span><br><span class="line">conda --version</span><br><span class="line"></span><br><span class="line"># 如果提示命令没找到的话，那我们需要先让环境变量生效</span><br><span class="line">source ~/.bash_profile</span><br><span class="line"># 再次执行 conda --version 应该能看到对应的版本信息，如果还是提示命令没有找到，有可能安装出错了，自行 Google/百度</span><br><span class="line"></span><br><span class="line"># 执行上一条命令之后，会切换到 base 环境下了(可以查看 ~/.bash_profile 中的内容，里面有条命令 conda activate base)</span><br><span class="line">python --version # 正常就是输出 3.7.x 的 python 版本信息了</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h3 id="配置-IDE-中的执行环境"><a href="#配置-IDE-中的执行环境" class="headerlink" title="配置 IDE 中的执行环境"></a>配置 IDE 中的执行环境</h3><p>很多时候我们需要在 IDE 中直接执行文件的话，是需要配置对应的 <strong>python</strong> 环境的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda activate base # 切换到 base 环境下</span><br><span class="line">which python # /Users/joyhe/anaconda3/bin/python</span><br></pre></td></tr></table></figure>
 <p><strong>/Users/joyhe/anaconda3/bin/python</strong> 这个路径就是我们要添加到 IDE 中的</p>
