@@ -102,5 +102,5 @@ theme: Hacker
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: 'git'
-  repo: git@github.com:Zero0719/Zero0719-Zero0719.github.io.git
-  branch: master
+  repo: git@github.com:Zero0719/Zero0719.github.io.git
+  branch: gh-pages
