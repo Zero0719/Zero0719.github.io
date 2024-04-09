@@ -148,3 +148,15 @@ sites:
 
 更多详细用法可阅读 [官方文档](https://laravel.com/docs/11.x/homestead)
 
+## 其他
+
+`vagrant scp` 插件，将本地文件传输到虚拟机
+```
+vagrant plugin install vagrant-scp
+
+# 首先需要确定传输的机器
+vagrant global-status
+
+# 会展示当前已有的所有虚拟机情况，我们需要用到 id 或者 name，这里建议用 id，name 可能会重复，传输成功以后目标文件就会在 vagrant 家目录中
+vagrant scp  filename d4cfe67:/home/vagrant
+```
