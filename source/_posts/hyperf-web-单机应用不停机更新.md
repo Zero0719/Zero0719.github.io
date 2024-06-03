@@ -243,6 +243,118 @@ sudo supervisorctl start web1
 
 至此，整个流程已经完毕，那后面的代码更新就比较简单了，原理就是先让 `web1` 拉取最新代码，关闭服务，启动服务，等待服务完全启动可用以后，再让 `web2` 重复上述步骤，完成以后本次更新完毕。
 
+## 编写更新脚本
+
+注意在写脚本的时候，我们应该是先更新备用端口，等备用端口可用以后再去更新主端口
+
+`update.py`
+```python
+import subprocess
+import time
+import requests
+
+class Update:
+    projects = [
+        {'name': 'web2', 'dir': '/home/vagrant/code/dev/hyperf-test/web2', 'url': 'http://192.168.56.56:9503'},
+        {'name': 'web1', 'dir': '/home/vagrant/code/dev/hyperf-test/web1', 'url': 'http://192.168.56.56:9502'}
+    ]
+
+    def start(self):
+        n = len(self.projects)
+        for index in range(n):
+            appName = self.projects[index]['name']
+            projectDir = self.projects[index]['dir']
+            appURL = self.projects[index]['url']
+            print(f"Updating project: {appName} in directory: {projectDir}")
+
+            # 拉取代码
+            # process = subprocess.Popen(['git', 'pull'], cwd=projectDir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            # for line in iter(process.stdout.readline, b''):
+            #     print(line.decode('utf-8').strip())
+            
+            # 生成新项目缓存
+            process = subprocess.Popen(['composer', 'dump-autoload', '-o'], cwd=projectDir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            for line in iter(process.stdout.readline, b''):
+                print(line.decode('utf-8').strip())
+
+            # 使用 supervisorctl 重启项目
+            process = subprocess.Popen(['sudo', 'supervisorctl', 'restart', appName], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            for line in iter(process.stdout.readline, b''):
+                print(line.decode('utf-8').strip())
+
+            # 监听项目启动
+            print(f"Waiting for {appName} to start...")
+            process = subprocess.Popen(['sudo', 'supervisorctl', 'status', appName], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            # 监听状态，直到状态为 RUNNING
+            while True:
+                try:
+                    # 发送HTTP请求检查项目是否启动
+                    response = requests.get(appURL)
+                    if response.status_code == 200:
+                        print(f"{appName} is running.")
+                        # 等待一段时间再继续下一个项目
+                        time.sleep(3)
+                        break
+                    else:
+                        print(f"{appName} is not yet running. Waiting...")
+                        time.sleep(1)
+                except Exception as e:
+                    pass
+
+        print("All projects updated and restarted.")
+
+
+if __name__ == '__main__':
+    Update().start()
+```
+
+`test.py`
+```python
+import threading
+import requests
+import time
+
+# 定义要请求的URL
+url = "http://192.168.56.56:9999"
+
+# 定义请求函数
+def make_request():
+    while True:
+        try:
+            # 发起HTTP请求
+            response = requests.get(url)
+            # 输出响应内容
+            print(response.text)
+        except Exception as e:
+            # 输出异常信息
+            print("Exception:", e)
+        # 等待一段时间再次请求
+        time.sleep(1)
+
+# 定义线程数
+num_threads = 5
+
+# 创建并启动线程
+threads = []
+for _ in range(num_threads):
+    thread = threading.Thread(target=make_request)
+    thread.start()
+    threads.append(thread)
+
+# 等待所有线程完成
+for thread in threads:
+    thread.join()
+
+```
+
+测试
+```
+python3 test.py
+
+python3 update.py
+```
+可以看到测试脚本的输出都是正常输出的，可以尝试更新以后看看输出。
+
 
 
 
