@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>项目代码版本管理和发布-2 | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="项目代码版本管理和发布-1
+项目代码版本管理和发布-2
+
+
+在上一篇 项目代码版本管理和发布-1 文章中我们部署了 gitlab，这篇我们在上篇的基础上部署 jenkins 用于发布项目。
+
+Jenkins安装安装文档
+安装 java
+1sudo apt install openjdk-11-jdk
+
+1234567sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.keyecho &amp;quot;deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]&amp;quot; \  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \  /etc/apt/sources.list.d/jenkins.list &amp;gt; /dev/nullsudo apt-get updatesudo apt-get install jenkins">
+  
+
+  
+  
+  <meta name="keywords" content="gitlab,jenkins">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="项目代码版本管理和发布-2"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>项目代码版本管理和发布-2</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/10/项目代码版本管理和发布-2/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-10T08:13:14.000Z">
+          2024-04-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><ol>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/" title="项目代码版本管理和发布-1">项目代码版本管理和发布-1</a></li>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/" title="项目代码版本管理和发布-2">项目代码版本管理和发布-2</a></li>
+</ol>
+<blockquote>
+<p>在上一篇 <a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/" title="项目代码版本管理和发布-1">项目代码版本管理和发布-1</a> 文章中我们部署了 <code>gitlab</code>，这篇我们在上篇的基础上部署 <code>jenkins</code> 用于发布项目。</p>
+</blockquote>
+<h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/installing/linux/#debianubuntu">安装文档</a></p>
+<p>安装 <code>java</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-11-jdk</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \</span><br><span class="line">  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key</span><br><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]&quot; \</span><br><span class="line">  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \</span><br><span class="line">  /etc/apt/sources.list.d/jenkins.list &gt; /dev/null</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install jenkins</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>注意上一个步骤可能会出错，因为我的 <code>jenkins</code> 和 <code>gitlab</code> 安装在了同一台机子上，<code>jenkins</code> 默认的监听端口是 <code>8080</code>，而 <code>gitlab</code> 有程序已经占用了这个端口，我们需要修改 <code>jenkins</code> 的默认端口 (我在这里踩坑了好久，定义端口的配置信息太多了，导致一直没有改对)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /lib/systemd/system/jenkins.service</span><br><span class="line"></span><br><span class="line">---------------------------------------</span><br><span class="line">Environment=<span class="string">&quot;JENKINS_PORT=8090&quot;</span></span><br><span class="line">---------------------------------------</span><br><span class="line"></span><br><span class="line"><span class="comment"># 记住重载配置信息</span></span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl start jenkins</span><br></pre></td></tr></table></figure>
+
+<p>设置虚拟机抛出 <code>8090</code> 端口允许访问</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/1.png" title="初始化面板" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/1.png" alt="初始化面板"></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取临时密码</span></span><br><span class="line">sudo <span class="built_in">cat</span> /var/lib/jenkins/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+
+<p>跟着推荐步骤完成初始化</p>
+<p>先修改 <code>admin</code> 账号的密码 <code>aa123456.</code></p>
+<h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><p>我们针对 <code>projectA</code> 项目需要增加两个发布，一个是发布到正式环境，一个是发布到测试环境</p>
+<ol>
+<li>克隆项目的两个分支 <code>project-A-main-repo</code>, <code>project-A-dev-repo</code></li>
+<li>创建两个目录存放对外代码 <code>project-A-main-out</code>, <code>project-A-dev-out</code>(为什么不直接用克隆下来的代码库作为对外项目呢，是因为我们希望在克隆以后，在项目库先进行一些 <code>composer</code> 或者 <code>npm</code> 的操作，操作完以后再 <code>rsync</code> 同步代码，如果直接用线上目录去操作，构建过程中如果出现问题，将会对线上项目产生重大影响)</li>
+<li>流程就是，在点击发布项目以后，克隆对应的分支，执行一些额外命令，然后同步代码至线上目录</li>
+</ol>
+<p>因为下面的步骤为了省事都用了 <code>sudo</code> 权限，所以为了后续的操作不出问题，我们需要让 jenkins 用户也拥有 <code>sudo</code> 权限，但是线上环境需要对用户权限的把控更严谨些；这里因为我们的仓库代码和线上代码目录都在同一台机子上，使用简单的复制命令就行，如果线上环境就要严谨一点使用 <code>rsync</code>，获取其他同步命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /data/repositories/project-A-main-repo</span><br><span class="line">sudo mkdir -p /data/repositories/project-A-dev-repo</span><br><span class="line">sudo mkdir -p /data/app/project-A-main-out</span><br><span class="line">sudo mkdir -p /data/app/project-A-dev-out</span><br><span class="line"></span><br><span class="line"># 初始化拉取项目，注意在拉取的机子上添加 gitlab 的 host</span><br><span class="line">cd /data/repositories/project-A-main-repo</span><br><span class="line">sudo git -c http.sslVerify=false clone -b main https://root:aa123456.@gitlab.example.com/root/projecta.git .</span><br></pre></td></tr></table></figure>
+
+<p>配置 <code>jenkins</code> 上的 <code>project-A</code> <code>Build Steps</code> 执行 <code>shell</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /data/repositories/project-A-main-repo \</span><br><span class="line">    &amp;&amp; sudo git -c http.sslVerify=<span class="literal">false</span> pull origin main \</span><br><span class="line">    &amp;&amp; sudo <span class="built_in">cp</span> -r /data/repositories/project-A-main-repo/* /data/app/project-A-main-out/</span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/2.png" title="jenkins配置" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/2.png" alt="jenkins配置"></a></p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/3.png" title="project-A-main" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/3.png" alt="project-A-main"></a></p>
+<p>如上也把 <code>project-A</code> 的 <code>dev</code> 分支也配置上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /data/repositories/project-A-dev-repo</span><br><span class="line">sudo git -c http.sslVerify=<span class="literal">false</span> <span class="built_in">clone</span> -b dev https://root:aa123456.@gitlab.example.com/root/projecta.git .</span><br></pre></td></tr></table></figure>
+<p><code>shell</code> 配置也类上，只要把相应的路径修改即可</p>
+<h2 id="最后测试"><a href="#最后测试" class="headerlink" title="最后测试"></a>最后测试</h2><p>现在我们要模拟真实环境跑通流程:</p>
+<ol>
+<li>在本地新建分支开发，然后合并到 <code>dev</code> 分支并且推送到远程仓库</li>
+</ol>
+<p>每次开发之前保证是在 <code>main</code> 分支的最新代码基础下进行的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin main</span><br></pre></td></tr></table></figure>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/4.png" title="main" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/4.png" alt="main"></a></p>
+<p>在 <code>main</code> 分支上检出自己的开发分支</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feature-branch</span><br><span class="line"></span><br><span class="line">echo &quot;finish my feature&quot; &gt;&gt; README.md</span><br><span class="line">git add -A</span><br><span class="line">git commit -m &quot;finish feature&quot;</span><br><span class="line"></span><br><span class="line"># 切换到 dev 分支，并且把刚刚自己开发的功能分支合并到 dev 分支，合并完成之后如果对自己足够自信可以删了这个本地分支，否则最好等代码上线以后稳定了再删除</span><br><span class="line">git checkout dev</span><br><span class="line">git merge feature-branch</span><br><span class="line"># 这里应该可以看到我们提交的历史纪录</span><br><span class="line">git log</span><br><span class="line"></span><br><span class="line"># 执行一次拉取远程的 dev 分支，每次准备 push 之前都应该手动拉，我们不知道别人提交的代码和我们是否有冲突，有的话在本地解决完再提交</span><br><span class="line">git pull origin dev </span><br><span class="line">git push origin dev</span><br></pre></td></tr></table></figure>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/5.png" title="pull-push" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/5.png" alt="pull-push"></a></p>
+<p>可以看到仓库中 <code>dev</code> 分支已经有最新的</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/6.png" title="pull-push" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/6.png" alt="pull-push"></a></p>
+<ol start="2">
+<li>发布 <code>dev</code> 分支的代码到外网</li>
+</ol>
+<p>我们需要对 <code>dev</code> 的代码测试完成以后，再向管理员发起合并到 <code>master</code> 分支的请求，然后再发布代码</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/7.png" title="publish" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/7.png" alt="publish"></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span> /data/app/project-A-dev-out/README.md</span><br></pre></td></tr></table></figure>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/8.png" title="内容差异" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/8.png" alt="内容差异"></a></p>
+<ol start="3">
+<li>合并请求</li>
+</ol>
+<p>此时我们确定了 <code>dev</code> 分支的新功能代码没有问题，这时候我们可以发起合并请求和发布了，此处省略操作步骤</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/9.png" title="合并请求" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/9.png" alt="合并请求"></a><br><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/10.png" title="main" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/10.png" alt="main"></a></p>
+<p>点击发布 <code>main</code> 分支</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/11.png" title="main" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/11.png" alt="main"></a></p>
+<blockquote>
+<p>^_^ enjoy it，下一篇我们围绕如何发布一个 <code>Laravel</code> 项目开展</p>
+</blockquote>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/gitlab/">gitlab</a><a href="/tags/jenkins/">jenkins</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

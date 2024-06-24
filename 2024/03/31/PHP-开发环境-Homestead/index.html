@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>PHP 开发环境-Homestead | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="Homestead 是一个可以在本地快速部署一个 Laravel 项目的虚拟机盒子，它基于 ubuntu 的基础上，内置了 php-fpm, nginx, mysql 等等的服务，事实上可以有很多个本地php的开发部署方案，比如 phpstudy, docker 等，但是用虚拟机部署，更接近生产环境，可以使我们平时开发时对虚拟机的操作，如果有必要可以以同样的方式同步到生产环境中，大部分 Linux 的操作大同小异。
+虽然 Homestead 对外的官方搭档是 Laravel 项目，但是其实项目中内置了很多其他 php 框架对应的 nginx 配置，只需要修改一点配置文件，就可以使用 proxy 模式，或者生成适配 thinkphp, yii 等框架的配置，虚拟机中还部署了多个版本的 php，简单的指令就可以让你轻松切换 php 版本，所以该虚拟机盒子作为开发环境还是挺高效方便。">
+  
+
+  
+  
+  <meta name="keywords" content="Homestead">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="PHP 开发环境-Homestead"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>PHP 开发环境-Homestead</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/03/31/PHP-开发环境-Homestead/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-03-31T10:59:35.000Z">
+          2024-03-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p><code>Homestead</code> 是一个可以在本地快速部署一个 <code>Laravel</code> 项目的虚拟机盒子，它基于 <code>ubuntu</code> 的基础上，内置了 <code>php-fpm</code>, <code>nginx</code>, <code>mysql</code> 等等的服务，事实上可以有很多个本地<code>php</code>的开发部署方案，比如 <code>phpstudy</code>, <code>docker</code> 等，但是用虚拟机部署，更接近生产环境，可以使我们平时开发时对虚拟机的操作，如果有必要可以以同样的方式同步到生产环境中，大部分 <code>Linux</code> 的操作大同小异。</p>
+<p>虽然 <code>Homestead</code> 对外的官方搭档是 <code>Laravel</code> 项目，但是其实项目中内置了很多其他 <code>php</code> 框架对应的 <code>nginx</code> 配置，只需要修改一点配置文件，就可以使用 <code>proxy</code> 模式，或者生成适配 <code>thinkphp</code>, <code>yii</code> 等框架的配置，虚拟机中还部署了多个版本的 <code>php</code>，简单的指令就可以让你轻松切换 <code>php</code> 版本，所以该虚拟机盒子作为开发环境还是挺高效方便。</p>
+<span id="more"></span>
+
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.virtualbox.org/">Virtualbox</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.vagrantup.com/">Vagrant</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">Git</a></li>
+</ul>
+<h3 id="拉取-Homestead-脚本"><a href="#拉取-Homestead-脚本" class="headerlink" title="拉取 Homestead 脚本"></a>拉取 Homestead 脚本</h3><p><a target="_blank" rel="noopener" href="https://github.com/laravel/homestead">laravel&#x2F;homestead</a></p>
+<p>以下指令使用 <code>git bash</code> 操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/laravel/homestead.git ~/Homestead</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/Homestead</span><br><span class="line"></span><br><span class="line">git checkout release</span><br><span class="line"></span><br><span class="line">bash init.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果用户还没有生成密钥对，则需要生成 rsa 密钥对</span></span><br><span class="line">ssh-keygen -t rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Homestead 虚拟机, 如果是首次执行，则会对应安装 laravel/homestead box，注意这里如果提示没有合适安装的版本，可在 Homestead.yaml 中指定 version: xxxxx</span></span><br><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line"><span class="comment"># ssh 连接至虚拟机</span></span><br><span class="line">vagrant ssh</span><br></pre></td></tr></table></figure>
+
+<h2 id="Laravel-Homestaed-文件讲解"><a href="#Laravel-Homestaed-文件讲解" class="headerlink" title="Laravel&#x2F;Homestaed 文件讲解"></a>Laravel&#x2F;Homestaed 文件讲解</h2><p>主要的核心文件是 <code>Homestead.yaml</code>，下面描述各个部分的配置块作用</p>
+<p><code>Homestead.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment"># 定义虚拟机的IP</span></span><br><span class="line"><span class="attr">ip:</span> <span class="string">&quot;192.168.56.56&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 虚拟机的内存</span></span><br><span class="line"><span class="attr">memory:</span> <span class="number">2048</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 虚拟机 cpu 核数</span></span><br><span class="line"><span class="attr">cpus:</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 虚拟机的的载体是 virtualbox</span></span><br><span class="line"><span class="attr">provider:</span> <span class="string">virtualbox</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 本机的 id_rsa.pub 文件对应可 ssh 虚拟机中的权限</span></span><br><span class="line"><span class="attr">authorize:</span> <span class="string">~/.ssh/id_rsa.pub</span></span><br><span class="line"></span><br><span class="line"><span class="attr">keys:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">~/.ssh/id_rsa</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 目录映射关系</span></span><br><span class="line"><span class="attr">folders:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">map:</span> <span class="string">~/code</span></span><br><span class="line">      <span class="attr">to:</span> <span class="string">/home/vagrant/code</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># nginx 站点配置</span></span><br><span class="line"><span class="attr">sites:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">map:</span> <span class="string">homestead.test</span></span><br><span class="line">      <span class="attr">to:</span> <span class="string">/home/vagrant/code/public</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mysql 的数据库</span></span><br><span class="line"><span class="attr">databases:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">homestead</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可使用的功能</span></span><br><span class="line"><span class="attr">features:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">mariadb:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">postgresql:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">ohmyzsh:</span> <span class="literal">false</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">webdriver:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 虚拟机中的服务</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">enabled:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">&quot;mysql&quot;</span></span><br><span class="line"><span class="comment">#    - disabled:</span></span><br><span class="line"><span class="comment">#        - &quot;postgresql@11-main&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口映射</span></span><br><span class="line"><span class="comment">#ports:</span></span><br><span class="line"><span class="comment">#    - send: 33060 # MySQL/MariaDB</span></span><br><span class="line"><span class="comment">#      to: 3306</span></span><br><span class="line"><span class="comment">#    - send: 4040</span></span><br><span class="line"><span class="comment">#      to: 4040</span></span><br><span class="line"><span class="comment">#    - send: 54320 # PostgreSQL</span></span><br><span class="line"><span class="comment">#      to: 5432</span></span><br><span class="line"><span class="comment">#    - send: 8025 # Mailpit</span></span><br><span class="line"><span class="comment">#      to: 8025</span></span><br><span class="line"><span class="comment">#    - send: 9600</span></span><br><span class="line"><span class="comment">#      to: 9600</span></span><br><span class="line"><span class="comment">#    - send: 27017</span></span><br><span class="line"><span class="comment">#      to: 27017</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h2><p>比如我们需要新增一个 <code>Laravel</code> 开发的站点 <code>laravel.test</code>，我们需要修改 <code>Homestead.yaml</code> 中的内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sites:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">map:</span> <span class="string">homestead.test</span></span><br><span class="line">      <span class="attr">to:</span> <span class="string">/home/vagrant/code/public</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">map:</span> <span class="string">laravel.test</span></span><br><span class="line">      <span class="attr">to:</span> <span class="string">/home/vagrant/code/laravel.test</span></span><br><span class="line"></span><br><span class="line"><span class="attr">databases:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">homestead</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">laraveltest</span></span><br></pre></td></tr></table></figure>
+
+<p>修改完以后执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/Homestead</span><br><span class="line">vagrant provision</span><br></pre></td></tr></table></figure>
+
+<p>本地修改 <code>host</code> 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.56.56 laravel.test</span><br></pre></td></tr></table></figure>
+
+<p>如果我们的项目是其他框架开发的，我们可以在 <code>Homestead/scripts/site-types</code> 中找到可用的类型，比如 <code>thinkphp</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sites:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">map:</span> <span class="string">thinkphp.test</span></span><br><span class="line">      <span class="attr">to:</span> <span class="string">/home/vagrant/code/thinkphptest</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">thinkphp</span></span><br></pre></td></tr></table></figure>
+
+<p>更多详细用法可阅读 <a target="_blank" rel="noopener" href="https://laravel.com/docs/11.x/homestead">官方文档</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><code>vagrant scp</code> 插件，将本地文件传输到虚拟机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vagrant plugin install vagrant-scp</span><br><span class="line"></span><br><span class="line"># 首先需要确定传输的机器</span><br><span class="line">vagrant global-status</span><br><span class="line"></span><br><span class="line"># 会展示当前已有的所有虚拟机情况，我们需要用到 id 或者 name，这里建议用 id，name 可能会重复，传输成功以后目标文件就会在 vagrant 家目录中</span><br><span class="line">vagrant scp  filename d4cfe67:/home/vagrant</span><br></pre></td></tr></table></figure></div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/PHP/">PHP</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Homestead/">Homestead</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

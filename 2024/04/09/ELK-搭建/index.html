@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ELK 搭建 | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="ELK 是指由 elasticsearch, logstash, kibana 组成的日志管理解决方案
+
+elasticsearch 是一个分布式的实时搜索和分析引擎，能够快速地存储、搜索和分析大量数据
+losstash 能够从多种来源收集日志数据，对数据进行处理和过滤，然后将数据发送到Elasticsearch等目标存储中
+kibana 提供了一个直观的Web界面，可以用来创建实时仪表板、图表和可视化，帮助用户更好地理解和分析日志数据">
+  
+
+  
+  
+  <meta name="keywords" content="elk">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="ELK 搭建"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>ELK 搭建</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/09/ELK-搭建/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-09T03:16:57.000Z">
+          2024-04-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p><code>ELK</code> 是指由 <code>elasticsearch</code>, <code>logstash</code>, <code>kibana</code> 组成的日志管理解决方案</p>
+<ul>
+<li><code>elasticsearch</code> 是一个分布式的实时搜索和分析引擎，能够快速地存储、搜索和分析大量数据</li>
+<li><code>losstash</code> 能够从多种来源收集日志数据，对数据进行处理和过滤，然后将数据发送到Elasticsearch等目标存储中</li>
+<li><code>kibana</code> 提供了一个直观的Web界面，可以用来创建实时仪表板、图表和可视化，帮助用户更好地理解和分析日志数据</li>
+</ul>
+<span id="more"></span>
+
+<blockquote>
+<p>以下内容部署基于 <code>ubuntu20</code> 虚拟机</p>
+</blockquote>
+<h2 id="Elasticsearch-安装"><a href="#Elasticsearch-安装" class="headerlink" title="Elasticsearch 安装"></a>Elasticsearch 安装</h2><p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/targz.html">安装文档</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.13.2-linux-x86_64.tar.gz</span><br><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.13.2-linux-x86_64.tar.gz.sha512</span><br><span class="line">shasum -a 512 -c elasticsearch-8.13.2-linux-x86_64.tar.gz.sha512 </span><br><span class="line">tar -xzf elasticsearch-8.13.2-linux-x86_64.tar.gz</span><br><span class="line"><span class="built_in">cd</span> elasticsearch-8.13.2/ </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动</span></span><br><span class="line">./bin/elasticsearch</span><br><span class="line"></span><br><span class="line"><span class="comment"># temp password </span></span><br><span class="line">*aG_h5WIMAcYVizoSecZ</span><br><span class="line"></span><br><span class="line"><span class="comment"># kibana 访问 code</span></span><br><span class="line">eyJ2ZXIiOiI4LjEzLjIiLCJhZHIiOlsiMTAuMC4yLjE1OjkyMDAiXSwiZmdyIjoiZTAwYzQwMDM4MjA4NjFiMTllZTE5NmM2NGVmOTRjNGUzYWI3ZDk4YTc3ZTM5MTNhMGNhZTg2NzcwZWI3MDVhYiIsImtleSI6IldqSDF3STRCd2tfZl9hOWhhd3RHOm4tMmRzbVpqUk9tYkdMZHhOM1hLUncifQ==</span><br></pre></td></tr></table></figure>
+
+<p>测试<br><a href="/images/ELK-%E6%90%AD%E5%BB%BA/1.png" title="测试" class="gallery-item"><img src="/images/ELK-%E6%90%AD%E5%BB%BA/1.png" alt="测试"></a></p>
+<h2 id="Kibana-安装"><a href="#Kibana-安装" class="headerlink" title="Kibana 安装"></a>Kibana 安装</h2><p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/kibana/current/install.html">安装文档</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://artifacts.elastic.co/downloads/kibana/kibana-8.13.2-linux-x86_64.tar.gz</span><br><span class="line">curl https://artifacts.elastic.co/downloads/kibana/kibana-8.13.2-linux-x86_64.tar.gz.sha512 | shasum -a 512 -c - </span><br><span class="line">tar -xzf kibana-8.13.2-linux-x86_64.tar.gz</span><br><span class="line"><span class="built_in">cd</span> kibana-8.13.2/</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>kibana</code> 配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line">------------------------------</span><br><span class="line"><span class="comment"># 因为我是部署在虚拟机上，所以这里要改为 0.0.0.0 可以让外部访问，同时虚拟机的配置需要允许访问 5601 端口</span></span><br><span class="line">server.host: <span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">./bin/kibana</span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/ELK-%E6%90%AD%E5%BB%BA/2.png" title="部署" class="gallery-item"><img src="/images/ELK-%E6%90%AD%E5%BB%BA/2.png" alt="部署"></a></p>
+<p>输入上面保存的 <code>es</code> 可以让 <code>kibana</code> 访问的 <code>code</code></p>
+<p><a href="/images/ELK-%E6%90%AD%E5%BB%BA/3.png" title="成功访问" class="gallery-item"><img src="/images/ELK-%E6%90%AD%E5%BB%BA/3.png" alt="成功访问"></a></p>
+<h2 id="Logstash-安装"><a href="#Logstash-安装" class="headerlink" title="Logstash 安装"></a>Logstash 安装</h2><p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/installing-logstash.html#package-repositories">安装文档</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/logstash/logstash-8.13.1-linux-x86_64.tar.gz</span><br><span class="line">tar -xzvf logstash-8.13.1-linux-x86_64.tar.gz</span><br><span class="line"><span class="built_in">cd</span> <span class="built_in">cd</span> logstash-8.13.1/</span><br></pre></td></tr></table></figure>
+
+<p>启动之前我们需要配置 <code>logstash</code> 监听某个文件或者目录，并传输到 <code>es</code> 中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"># 假设该文件是我们要监听</span><br><span class="line">touch /home/vagrant/test.log</span><br><span class="line"></span><br><span class="line"># 修改 logstash 的配置文件 (如果该文件不存在，可以复制 logstash-sample.conf)</span><br><span class="line">vim config/logstash.conf</span><br><span class="line"></span><br><span class="line">--------------------</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  file &#123;</span><br><span class="line">    path =&gt; &quot;/home/vagrant/test.log&quot;</span><br><span class="line">    start_position =&gt; &quot;beginning&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 这里需要注意 es 的连接协议方式，信任token，部署的过程中对于这方面不熟悉，折腾了许久，后面是参考 kibana 中的配置文件才连接成功</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; [&quot;https://10.0.2.15:9200&quot;]</span><br><span class="line">    index =&gt; &quot;test-elk&quot;</span><br><span class="line">    user =&gt; &quot;elastic&quot;</span><br><span class="line">    password =&gt; &quot;*aG_h5WIMAcYVizoSecZ&quot;</span><br><span class="line">    ca_trusted_fingerprint =&gt; &quot;e00c4003820861b19ee196c64ef94c4e3ab7d98a77e3913a0cae86770eb705ab&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">./bin/logstash -f config/logstash.conf</span><br></pre></td></tr></table></figure>
+<p><a href="/images/ELK-%E6%90%AD%E5%BB%BA/4.png" title="成功" class="gallery-item"><img src="/images/ELK-%E6%90%AD%E5%BB%BA/4.png" alt="成功"></a></p>
+<h2 id="在-Kibana-中创建-index-视图"><a href="#在-Kibana-中创建-index-视图" class="headerlink" title="在 Kibana 中创建 index 视图"></a>在 Kibana 中创建 index 视图</h2><p><a href="/images/ELK-%E6%90%AD%E5%BB%BA/5.png" title="创建index视图" class="gallery-item"><img src="/images/ELK-%E6%90%AD%E5%BB%BA/5.png" alt="创建index视图"></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;hello elk&quot;</span> &gt;&gt; /home/vagrant/test.log</span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/ELK-%E6%90%AD%E5%BB%BA/6.png" class="gallery-item"><img src="/images/ELK-%E6%90%AD%E5%BB%BA/6.png"></a></p>
+<p>可以看见文件的变化已经被监听到写入到 <code>es</code> 中，<code>logstash</code> 还可以监听比如系统日志，<code>web</code> 日志，<code>nginx</code> 日志，等等你需要观察的日志记录，只需要增加对应的配置信息即可，至此，简单的 <code>elk</code> 搭建就已经完毕，但是这个架构方案存在一定问题，一是文件监听变化的 <code>logstash</code> 相对体量比较大，比较吃资源，二是如果 <code>logstash</code> 发生故障会导致一部分变化数据丢失，另一篇文章<a href="/2024/04/09/ELK-%E6%89%A9%E5%B1%95%E7%AF%87/" title="ELK 扩展篇">ELK 扩展篇</a>，我们在此架构基础上加上 <code>filebeat</code>, <code>kafka</code> 解决这两个问题，让整个日志系统更加稳定</p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/elk/">elk</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>项目代码版本管理和发布-1 | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="项目代码版本管理和发布-1
+项目代码版本管理和发布-2
+
+
+Gitlab 管理代码仓库
+Jenkins 管理项目发布
+
+准备一台虚拟机，我使用的是 ubuntu20, 8g内存，4核cpu
+假设我们的开发团队有三个人，一个是 leader，另外两个是普通 developer，他们分别负责 projectA, projectB，在这个背景下搭建一套代码管理和发布方案">
+  
+
+  
+  
+  <meta name="keywords" content="gitlab,jenkins">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="项目代码版本管理和发布-1"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>项目代码版本管理和发布-1</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/10/项目代码版本管理和发布-1/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-10T03:35:32.000Z">
+          2024-04-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><ol>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/" title="项目代码版本管理和发布-1">项目代码版本管理和发布-1</a></li>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/" title="项目代码版本管理和发布-2">项目代码版本管理和发布-2</a></li>
+</ol>
+<ul>
+<li>Gitlab 管理代码仓库</li>
+<li>Jenkins 管理项目发布</li>
+</ul>
+<p>准备一台虚拟机，我使用的是 <code>ubuntu20</code>, 8g内存，4核cpu</p>
+<p>假设我们的开发团队有三个人，一个是 <code>leader</code>，另外两个是普通 <code>developer</code>，他们分别负责 <code>projectA</code>, <code>projectB</code>，在这个背景下搭建一套代码管理和发布方案</p>
+<span id="more"></span>
+
+<h2 id="Gitlab"><a href="#Gitlab" class="headerlink" title="Gitlab"></a>Gitlab</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a target="_blank" rel="noopener" href="https://about.gitlab.com/install/#ubuntu">下载文档</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y curl openssh-server ca-certificates tzdata perl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要邮件发送执行这个命令</span></span><br><span class="line">sudo apt-get install -y postfix</span><br><span class="line"></span><br><span class="line">curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash</span><br><span class="line"></span><br><span class="line">sudo EXTERNAL_URL=<span class="string">&quot;https://gitlab.example.com&quot;</span> apt-get install gitlab-ee</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/gitlab/gitlab.rb 是配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果修改了配置文件执行以下命令重新加载配置</span></span><br><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+
+<p>绑定 <code>host</code>，访问面板</p>
+<ul>
+<li>192.168.56.58 gitlab.example.com</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取管理员初始密码</span></span><br><span class="line">sudo <span class="built_in">cat</span> /etc/gitlab/initial_root_password</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动(首次安装如无意外会默认启动)</span></span><br><span class="line">sudo gitlab-ctl start</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://gitlab.example.com/users/sign_in">登录面板</a></p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/1.png" title="登录" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/1.png" alt="登录"></a></p>
+<h3 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h3><ul>
+<li>首次登陆管理员账号，需要修改密码，因为临时密码24h过期</li>
+<li>作为企业内部项目，我们需要关闭注册功能</li>
+<li>设置为中文</li>
+</ul>
+<h3 id="新增用户和项目"><a href="#新增用户和项目" class="headerlink" title="新增用户和项目"></a>新增用户和项目</h3><h4 id="新增用户"><a href="#新增用户" class="headerlink" title="新增用户"></a>新增用户</h4><p>新增了两个用户 <code>test1</code>, <code>test2</code> 密码都修改为 <code>a123456.</code></p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/2.png" title="用户" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/2.png" alt="用户"></a></p>
+<p>使用浏览器无痕模式登录 <code>test1</code> 测试</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/3.png" title="修改密码" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/3.png" alt="修改密码"></a></p>
+<p>这里要求修改密码，我把他更改为 <code>aa123456.</code></p>
+<h4 id="新增项目"><a href="#新增项目" class="headerlink" title="新增项目"></a>新增项目</h4><p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/4.png" title="项目" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/4.png" alt="项目"></a></p>
+<p>分别给 <code>test1</code>, <code>test2</code> 对应项目的权限</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/5.png" title="项目分配用户" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/5.png" alt="项目分配用户"></a></p>
+<p>在用户 <code>test1</code> <code>test2</code> 的主面板中刷新就可以看到拥有对应的项目了</p>
+<h4 id="拉取项目"><a href="#拉取项目" class="headerlink" title="拉取项目"></a>拉取项目</h4><p>我们在本机拉取项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/code/dev/test</span><br></pre></td></tr></table></figure>
+
+<p>尝试用 <code>test1</code> 拉取 <code>projectB</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 注意这里加入了选项不要 ssl 验证</span><br><span class="line">git -c http.sslVerify=false clone https://gitlab.example.com/root/projectb.git</span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/6.png" title="拉取项目" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/6.png" alt="拉取项目"></a></p>
+<p>可以看出我们克隆失败了</p>
+<p>切换回对应的账号拉取项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git -c http.sslVerify=false clone https://test1:aa123456.@gitlab.example.com/root/projecta.git</span><br><span class="line">git -c http.sslVerify=false clone https://test2:aa123456.@gitlab.example.com/root/projectb.git</span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/7.png" title="拉取项目" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/7.png" alt="拉取项目"></a></p>
+<h4 id="修改并推送"><a href="#修改并推送" class="headerlink" title="修改并推送"></a>修改并推送</h4><p>修改项目中的代码并尝试提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd projecta</span><br><span class="line">echo 1 &gt; README.md</span><br><span class="line">git add -A</span><br><span class="line">git commit -m &quot;change project A&quot;</span><br><span class="line">git -c http.sslVerify=false push origin main</span><br></pre></td></tr></table></figure>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/8.png" title="推送" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/8.png" alt="推送"></a></p>
+<p>可以看到推送失败了，这是因为 <code>main</code> 分支是一支被保护的分支，它不允许直接推送</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/9.png" title="保护分支" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/9.png" alt="保护分支"></a></p>
+<p>因此我们需要在内部定义一套规则：</p>
+<ul>
+<li><code>main</code> 分支作为正式项目同步的分支，开发人员拉取的时候也是拉取这个分支作为项目基础</li>
+<li><code>main</code> 分支内部协定只能由 <code>dev</code> 分支发起合并请求</li>
+<li>本地开发的时候可以新起功能分支，开发完毕本地 <code>merge</code> 到 <code>dev</code> 分支，并推送，然后到 <code>gitlab</code> 面板发起合并请求，管理人员 <code>code review</code> 无误以后通过合并</li>
+<li>如果有需要，可以以 <code>dev</code> 分支的代码部署一个线上测试环境</li>
+</ul>
+<p>管理员面板新建一个 <code>dev</code> 分支，我们把刚刚改的代码推送到这个分支上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev</span><br><span class="line">git -c http.sslVerify=false push origin dev</span><br></pre></td></tr></table></figure>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/10.png" title="推送" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/10.png" alt="推送"></a></p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/11.png" title="修改变化" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/11.png" alt="修改变化"></a></p>
+<p>发起合并请求<br><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/12.png" title="发起合并请求" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/12.png" alt="发起合并请求"></a><br><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/13.png" title="发起合并请求" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/13.png" alt="发起合并请求"></a></p>
+<p>此时切换到管理员面板，可以看到申请合并的分支，我们可以在查看代码以及询问测试验收结果以后同意合并或者拒绝合并</p>
+<p><a href="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/14.png" title="发起合并请求" class="gallery-item"><img src="/images/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/14.png" alt="发起合并请求"></a></p>
+<p>可以看到 <code>projectA</code> 的 <code>README.md</code> 文件的内容已经变成 1</p>
+<blockquote>
+<p>到这里我们介绍了 <code>gitlab</code> 的代码版本管理，下一个篇章，介绍如何通过 jenkins 去控制发布项目，为什么没有使用 <code>hook action</code>，是因为觉得全部自动发布，中间如果有什么环节临时要改，会产生一些不可控的因素，所以还是决定通过在 <code>jenkins</code> 点击触发发布</p>
+</blockquote>
+<a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/" title="项目代码版本管理和发布-2">项目代码版本管理和发布-2</a>
+
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/gitlab/">gitlab</a><a href="/tags/jenkins/">jenkins</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

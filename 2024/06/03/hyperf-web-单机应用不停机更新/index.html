@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>hyperf web 单机应用不停机更新 | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="在 hyperf 应用中如果修改了代码，我们就必须要重启应用才能使代码生效，但是生产环境中停机是会对服务产生巨大影响的，如果服务频繁的改动需要频繁的停机更新，这肯定是不合理的。有没有什么办法可以在服务能够继续使用的情况下更新代码呢，答案肯定是有的。">
+  
+
+  
+  
+  <meta name="keywords" content="hyperf">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="hyperf web 单机应用不停机更新"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>hyperf web 单机应用不停机更新</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/06/03/hyperf-web-单机应用不停机更新/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-06-03T01:54:29.000Z">
+          2024-06-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p>在 <code>hyperf</code> 应用中如果修改了代码，我们就必须要重启应用才能使代码生效，但是生产环境中停机是会对服务产生巨大影响的，如果服务频繁的改动需要频繁的停机更新，这肯定是不合理的。有没有什么办法可以在服务能够继续使用的情况下更新代码呢，答案肯定是有的。</p>
+<span id="more"></span>
+
+<p>根据官方文档，一种是使用 <code>docker</code> 容器方案，比如使用一些 <code>k8s</code> 或者 <code>swarm</code> 等容器管理工具，开启多个服务，当需要更新时，依次销毁并建立新容器，当销毁一个容器时，<code>k8s</code> 之类的工具会把流量引入到还未销毁的容器当中，交替完成以后就是所有的服务更新完毕。</p>
+<p>但是，并不是所有的公司或者应用都需要使用到容器方案，一个是会增加了我们的学习成本，另一个是增加了运维成本，当我们需要原机上也要实现这种效果应该怎么做？</p>
+<p>其实根据容器方案，我们可以想到两个关键信息，一个是多应用，第二个是负载均衡。</p>
+<p>那么根据关键信息，我们可以想到对应方案是：</p>
+<ol>
+<li>多应用，可以在多机上部署多个服务，但是我们的应用又不一定要多机，那单机多端口一样是实现了多应用</li>
+<li>负载均衡，那就可以考虑到 <code>nginx</code>，当第一个应用不可用时，我们就把流量转到第二个应用</li>
+</ol>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><ol>
+<li>两个 <code>web</code> 应用 <code>web1</code>, <code>web2</code>，分别监听 <code>9502</code>, <code>9503</code> 端口</li>
+<li>使用 <code>supervisor</code> 管理应用</li>
+<li>有 <code>nginx</code> 服务</li>
+</ol>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 两个 web 应用的目录 </span><br><span class="line"># /home/vagrant/code/dev/hyperf-test/web1</span><br><span class="line"># /home/vagrant/code/dev/hyperf-test/web2</span><br><span class="line"></span><br><span class="line">cd /home/vagrant/code/dev/hyperf-test/web1</span><br><span class="line"></span><br><span class="line"># 启动应用</span><br><span class="line">php bin/hyperf.php start</span><br><span class="line"></span><br><span class="line"># 访问 9502 看看能否正常使用</span><br><span class="line"># 同理启动 web2 的应用</span><br></pre></td></tr></table></figure>
+
+<h2 id="优雅关闭"><a href="#优雅关闭" class="headerlink" title="优雅关闭"></a>优雅关闭</h2><p>前面说到有一个环节需要重启服务，那停服务的时候，如果已经有请求还没处理完毕，那我们直接 <code>kill</code> 掉，那么会导致这个请求丢失，最后无法响应，那么有没有方法是当我们需要关闭服务的时候，里面所有的请求处理完毕再关闭呢。当我们关闭服务的时给应用发送一个信号 <code>kill -15</code>(<code>kill sigterm</code>), <code>hyperf</code> 可以正确的响应这个信号，把还在处理中的请求处理完毕再进行关闭服务。</p>
+<p>我们用 <code>web1</code> 测试一下</p>
+<p><code>App\Controller\IndexController@index</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public function index()</span><br><span class="line">&#123;</span><br><span class="line">    $user = $this-&gt;request-&gt;input(&#x27;user&#x27;, &#x27;Hyperf&#x27;);</span><br><span class="line">    $method = $this-&gt;request-&gt;getMethod();</span><br><span class="line"></span><br><span class="line">    Coroutine::sleep(3);</span><br><span class="line">    </span><br><span class="line">    return [</span><br><span class="line">        &#x27;method&#x27; =&gt; $method,</span><br><span class="line">        &#x27;message&#x27; =&gt; &quot;Hello web1.&quot;,</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新启动服务并访问，可以看到请求在3秒后做出响应<br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/1.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/1.png"></a></p>
+<p>这次我们测试，请求以后马上对服务(进程pid)发出停止讯号，注意后续如果有不同的测试,<code>pid</code> 在项目的 <code>runtime</code> 中查找</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kill -15 1525411</span><br></pre></td></tr></table></figure>
+<p><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/2.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/2.png"></a><br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/3.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/3.png"></a><br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/4.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/4.png"></a></p>
+<p>可以看到应用还是正常的得到响应，我们试试把程序睡眠的时间调大一点，改到10试试<br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/5.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/5.png"></a><br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/6.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/6.png"></a><br>可以看到这次，服务没有得到正确的响应，看报错那是因为 <code>swoole</code> 接受到停止信号后 <code>worker</code> 的最大等待时间默认为3秒, <code>max_wait_time</code> 那我们修改这个值就可以了</p>
+<p><code>config/autoload/server.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 settings 中增加</span></span><br><span class="line"><span class="string">&#x27;settings&#x27;</span> =&gt; [</span><br><span class="line">    <span class="title class_">Constant</span>::<span class="variable constant_">OPTION_MAX_WAIT_TIME</span> =&gt; <span class="number">10</span></span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public function index()</span><br><span class="line">&#123;</span><br><span class="line">    $start = time();</span><br><span class="line">    $user = $this-&gt;request-&gt;input(&#x27;user&#x27;, &#x27;Hyperf&#x27;);</span><br><span class="line">    $method = $this-&gt;request-&gt;getMethod();</span><br><span class="line"></span><br><span class="line">    Coroutine::sleep(10);</span><br><span class="line"></span><br><span class="line">    $end = time();</span><br><span class="line">    return [</span><br><span class="line">        &#x27;method&#x27; =&gt; $method,</span><br><span class="line">        &#x27;message&#x27; =&gt; &quot;Hello web1.&quot;,</span><br><span class="line">        &#x27;start&#x27; =&gt; $start,</span><br><span class="line">        &#x27;end&#x27; =&gt; $end,</span><br><span class="line">        &#x27;interval&#x27; =&gt; $end - $start,</span><br><span class="line">        &#x27;now&#x27; =&gt; date(&#x27;Y-m-d H:i:s&#x27;, $end),</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动服务再次测试<br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/7.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/7.png"></a><br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/8.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/8.png"></a><br>可以看到我们在 <code>11.06.59</code> 的时候就已经做出了关闭请求，最后应用能够正常的响应服务，<code>11.07.07</code> 处理完请求。</p>
+<p>把代码和配置同步到 <code>web2</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public function index()</span><br><span class="line">&#123;</span><br><span class="line">    $start = time();</span><br><span class="line">    $user = $this-&gt;request-&gt;input(&#x27;user&#x27;, &#x27;Hyperf&#x27;);</span><br><span class="line">    $method = $this-&gt;request-&gt;getMethod();</span><br><span class="line"></span><br><span class="line">    Coroutine::sleep(10);</span><br><span class="line"></span><br><span class="line">    $end = time();</span><br><span class="line">    return [</span><br><span class="line">        &#x27;method&#x27; =&gt; $method,</span><br><span class="line">        &#x27;message&#x27; =&gt; &quot;Hello web2.&quot;, // 修改这行</span><br><span class="line">        &#x27;start&#x27; =&gt; $start,</span><br><span class="line">        &#x27;end&#x27; =&gt; $end,</span><br><span class="line">        &#x27;interval&#x27; =&gt; $end - $start,</span><br><span class="line">        &#x27;now&#x27; =&gt; date(&#x27;Y-m-d H:i:s&#x27;, $end),</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Supervisor"><a href="#Supervisor" class="headerlink" title="Supervisor"></a>Supervisor</h2><p>使用 <code>supervisor</code> 去管理我们的 <code>web</code> 应用</p>
+<p>当我们使用 <code>supervisotctl stop</code> 的时候，实际上它也是给应用发送了 <code>kill sigterm</code> 信号</p>
+<p><code>web1.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[program:web1]</span><br><span class="line">directory=/home/vagrant/code/dev/hyperf-test/web1</span><br><span class="line">command=php ./bin/hyperf.php start</span><br><span class="line">user=root</span><br><span class="line">autostart=true</span><br><span class="line">startsecs=1</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=3</span><br><span class="line">stderr_logfile=/var/www/hyperf/web1/runtime/stderr.log</span><br><span class="line">stdout_logfile=/var/www/hyperf/web1/runtime/stdout.log</span><br></pre></td></tr></table></figure>
+
+<p><code>web2.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[program:web2]</span><br><span class="line">directory=/home/vagrant/code/dev/hyperf-test/web2</span><br><span class="line">command=php ./bin/hyperf.php start</span><br><span class="line">user=root</span><br><span class="line">autostart=true</span><br><span class="line">startsecs=1</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=3</span><br><span class="line">stderr_logfile=/var/www/hyperf/web2/runtime/stderr.log</span><br><span class="line">stdout_logfile=/var/www/hyperf/web2/runtime/stdout.log</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo supervisorctl update</span><br><span class="line">sudo supervisorctl status</span><br></pre></td></tr></table></figure>
+<p><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/9.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/9.png"></a><br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/10.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/10.png"></a></p>
+<h2 id="Nginx-负载"><a href="#Nginx-负载" class="headerlink" title="Nginx 负载"></a>Nginx 负载</h2><p>使用一个统一的入口，然后把流量再转发给 <code>web1</code>, <code>web2</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">sudo vim hyperf-update-code-test.conf</span><br><span class="line"></span><br><span class="line"># 加入以下配置</span><br><span class="line"></span><br><span class="line"># 至少需要一个 Hyperf 节点，多个配置多行</span><br><span class="line">upstream hyperf-test &#123;</span><br><span class="line">    # Hyperf HTTP Server 的 IP 及 端口</span><br><span class="line">    server 127.0.0.1:9502;</span><br><span class="line">    server 127.0.0.1:9503;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    # 监听端口</span><br><span class="line">    listen 9999;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        # 将客户端的 Host 和 IP 信息一并转发到对应节点</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line"></span><br><span class="line">        # 转发Cookie，设置 SameSite</span><br><span class="line">        proxy_cookie_path / &quot;/; secure; HttpOnly; SameSite=strict&quot;;</span><br><span class="line"></span><br><span class="line">        # 执行代理访问真实服务器</span><br><span class="line">        proxy_pass http://hyperf-test;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<p><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/11.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/11.png"></a><br>可以看到负载已经成功,但是我们真正想要的并不是负载，我们想要的只是 <code>web2</code> 做一个备份就行，流量大部分情况下还是往 <code>web1</code> 去运行就行，改一下参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server 127.0.0.1:9503 backup;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+<p><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/12.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/12.png"></a><br>可以看到流量都往 <code>web1</code> 上转发了，这时候我们测试开启4个浏览器端口，第一个先访问应用，然后这时关闭掉 <code>web1</code> 的服务，再访问第二个，第三个，开启 <code>web1</code> 的服务，访问第四个</p>
+<p>按照我们的设想，如果正常,第一个被 <code>web1</code> 接收到，虽然是中断了服务，但是是优雅关闭，请求应该还是能正常响应，第二、三个服务被 <code>web2</code> 接受响应，第四个又被重新启动的 <code>web1</code> 响应处理</p>
+<p>开始模拟测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 第一个访问之后执行</span><br><span class="line">sudo supervisorctl stop web1</span><br><span class="line"></span><br><span class="line"># 第三个访问之后执行</span><br><span class="line">sudo supervisorctl start web1</span><br></pre></td></tr></table></figure>
+<p><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/13.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/13.png"></a><br><a href="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/14.png" class="gallery-item"><img src="/images/hyperf-web-%E5%8D%95%E6%9C%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%81%9C%E6%9C%BA%E6%9B%B4%E6%96%B0/14.png"></a></p>
+<p>可以看到确实是我们想要的效果，<code>web2</code> 只有在 <code>web1</code> 不再接受流量的时候处理，当 <code>web1</code> 可用的时候 <code>web2</code> 又不再处理了</p>
+<p>至此，整个流程已经完毕，那后面的代码更新就比较简单了，原理就是两个端口项目轮流拉代码重启。</p>
+<h2 id="编写更新脚本"><a href="#编写更新脚本" class="headerlink" title="编写更新脚本"></a>编写更新脚本</h2><p>注意在写脚本的时候，我们应该是先更新备用端口，等备用端口可用以后再去更新主端口</p>
+<p><code>update.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Update</span>:</span><br><span class="line">    projects = [</span><br><span class="line">        &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;web2&#x27;</span>, <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;/home/vagrant/code/dev/hyperf-test/web2&#x27;</span>, <span class="string">&#x27;url&#x27;</span>: <span class="string">&#x27;http://192.168.56.56:9503&#x27;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;web1&#x27;</span>, <span class="string">&#x27;dir&#x27;</span>: <span class="string">&#x27;/home/vagrant/code/dev/hyperf-test/web1&#x27;</span>, <span class="string">&#x27;url&#x27;</span>: <span class="string">&#x27;http://192.168.56.56:9502&#x27;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">start</span>(<span class="params">self</span>):</span><br><span class="line">        n = <span class="built_in">len</span>(self.projects)</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            appName = self.projects[index][<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">            projectDir = self.projects[index][<span class="string">&#x27;dir&#x27;</span>]</span><br><span class="line">            appURL = self.projects[index][<span class="string">&#x27;url&#x27;</span>]</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Updating project: <span class="subst">&#123;appName&#125;</span> in directory: <span class="subst">&#123;projectDir&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 拉取代码</span></span><br><span class="line">            <span class="comment"># process = subprocess.Popen([&#x27;git&#x27;, &#x27;pull&#x27;], cwd=projectDir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)</span></span><br><span class="line">            <span class="comment"># for line in iter(process.stdout.readline, b&#x27;&#x27;):</span></span><br><span class="line">            <span class="comment">#     print(line.decode(&#x27;utf-8&#x27;).strip())</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 生成新项目缓存</span></span><br><span class="line">            process = subprocess.Popen([<span class="string">&#x27;composer&#x27;</span>, <span class="string">&#x27;dump-autoload&#x27;</span>, <span class="string">&#x27;-o&#x27;</span>], cwd=projectDir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> <span class="built_in">iter</span>(process.stdout.readline, <span class="string">b&#x27;&#x27;</span>):</span><br><span class="line">                <span class="built_in">print</span>(line.decode(<span class="string">&#x27;utf-8&#x27;</span>).strip())</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 使用 supervisorctl 重启项目</span></span><br><span class="line">            process = subprocess.Popen([<span class="string">&#x27;sudo&#x27;</span>, <span class="string">&#x27;supervisorctl&#x27;</span>, <span class="string">&#x27;restart&#x27;</span>, appName], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> <span class="built_in">iter</span>(process.stdout.readline, <span class="string">b&#x27;&#x27;</span>):</span><br><span class="line">                <span class="built_in">print</span>(line.decode(<span class="string">&#x27;utf-8&#x27;</span>).strip())</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 监听项目启动</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Waiting for <span class="subst">&#123;appName&#125;</span> to start...&quot;</span>)</span><br><span class="line">            process = subprocess.Popen([<span class="string">&#x27;sudo&#x27;</span>, <span class="string">&#x27;supervisorctl&#x27;</span>, <span class="string">&#x27;status&#x27;</span>, appName], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)</span><br><span class="line">            <span class="comment"># 监听状态，直到状态为 RUNNING</span></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="comment"># 发送HTTP请求检查项目是否启动</span></span><br><span class="line">                    response = requests.get(appURL)</span><br><span class="line">                    <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;appName&#125;</span> is running.&quot;</span>)</span><br><span class="line">                        <span class="comment"># 等待一段时间再继续下一个项目</span></span><br><span class="line">                        time.sleep(<span class="number">3</span>)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;appName&#125;</span> is not yet running. Waiting...&quot;</span>)</span><br><span class="line">                        time.sleep(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;All projects updated and restarted.&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    Update().start()</span><br></pre></td></tr></table></figure>
+
+<p><code>test.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义要请求的URL</span></span><br><span class="line">url = <span class="string">&quot;http://192.168.56.56:9999&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义请求函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_request</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 发起HTTP请求</span></span><br><span class="line">            response = requests.get(url)</span><br><span class="line">            <span class="comment"># 输出响应内容</span></span><br><span class="line">            <span class="built_in">print</span>(response.text)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="comment"># 输出异常信息</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Exception:&quot;</span>, e)</span><br><span class="line">        <span class="comment"># 等待一段时间再次请求</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义线程数</span></span><br><span class="line">num_threads = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并启动线程</span></span><br><span class="line">threads = []</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_threads):</span><br><span class="line">    thread = threading.Thread(target=make_request)</span><br><span class="line">    thread.start()</span><br><span class="line">    threads.append(thread)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待所有线程完成</span></span><br><span class="line"><span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">    thread.join()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 test.py</span><br><span class="line"></span><br><span class="line">python3 update.py</span><br></pre></td></tr></table></figure>
+<p>可以看到测试脚本的输出都是正常输出的，可以尝试更新以后看看输出。</p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/hyperf/">hyperf</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

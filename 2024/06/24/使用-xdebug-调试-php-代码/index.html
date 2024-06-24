@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用 xdebug 调试 php 代码 | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="环境
+php5.6
+xdebug 扩展
+phpstorm 编辑器
+homestead 虚拟机(注意要用超管用户启动)
+
+本文内容基于以上环境编写，其他环境下配置也基本大同小异，注意这篇文章的调试只在传统的 php 方式下，并不包括 swoole 这种环境。
+安装 xdebug 扩展安装方式可以参考 swoole 扩展的安装，只需要确保扩展安装好并启用即可
+Homestead 添加 Swoole 扩展
+
+cli
+1php -m | grep xdebug
+
+fpm
+1phpinfo();">
+  
+
+  
+  
+  <meta name="keywords" content="php,xdebug,homestead">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="使用 xdebug 调试 php 代码"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>使用 xdebug 调试 php 代码</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/06/24/使用-xdebug-调试-php-代码/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-06-24T03:37:02.000Z">
+          2024-06-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>php5.6</li>
+<li>xdebug 扩展</li>
+<li>phpstorm 编辑器</li>
+<li>homestead 虚拟机(注意要用超管用户启动)</li>
+</ul>
+<p>本文内容基于以上环境编写，其他环境下配置也基本大同小异，注意这篇文章的调试只在传统的 <code>php</code> 方式下，并不包括 <code>swoole</code> 这种环境。</p>
+<h2 id="安装-xdebug-扩展"><a href="#安装-xdebug-扩展" class="headerlink" title="安装 xdebug 扩展"></a>安装 xdebug 扩展</h2><p>安装方式可以参考 <code>swoole</code> 扩展的安装，只需要确保扩展安装好并启用即可</p>
+<a href="/2024/03/31/Homestead-%E6%B7%BB%E5%8A%A0-Swoole-%E6%89%A9%E5%B1%95/" title="Homestead 添加 Swoole 扩展">Homestead 添加 Swoole 扩展</a>
+
+<p><code>cli</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -m | grep xdebug</span><br></pre></td></tr></table></figure>
+
+<p><code>fpm</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phpinfo();</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="xdebug-配置"><a href="#xdebug-配置" class="headerlink" title="xdebug 配置"></a>xdebug 配置</h2><p>这里需要注意，如果 <code>php</code> 的 <code>fpm</code> 和 <code>cli</code> 方式下引入的扩展不一样，需要按需配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">zend_extension=xdebug.so</span><br><span class="line">xdebug.mode=debug</span><br><span class="line">xdebug.remote_enable = 1</span><br><span class="line">xdebug.remote_connect_back = 1</span><br><span class="line">; 这里填写编辑器监听的端口，phpstorm默认是9000</span><br><span class="line">xdebug.remote_port = 9000</span><br><span class="line">; 这里填写主机地址，也就是编辑器所在的地址</span><br><span class="line">xdebug.remote_host = 192.168.56.1</span><br><span class="line">xdebug.max_nesting_level = 512</span><br><span class="line">; 这里看情况填写，vscode或者其他编辑器可能不一样，也是看情况调整</span><br><span class="line">xdebug.idekey = PHPSTORM</span><br></pre></td></tr></table></figure>
+
+<h2 id="phpstorm-配置"><a href="#phpstorm-配置" class="headerlink" title="phpstorm 配置"></a>phpstorm 配置</h2><ol>
+<li><p><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/1.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/1.png"></a></p>
+</li>
+<li><p>这里需要注意 <code>host</code> 是我们要访问的虚拟域名，如果是在虚拟机或者一些非本机环境下，我们需要做一些目录映射<br><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/2.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/2.png"></a></p>
+</li>
+<li><p>配置 <code>php cli</code> 执行目录，因为我们这里用的 <code>homestead</code> ，所以需要调用到虚拟机中的可执行命令<br><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/3.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/3.png"></a><br><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/4.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/4.png"></a></p>
+</li>
+<li><p>配置 <code>debug</code> 配置,服务选择第二步中所添加的<br><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/5.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/5.png"></a></p>
+</li>
+</ol>
+<h2 id="测试调试"><a href="#测试调试" class="headerlink" title="测试调试"></a>测试调试</h2><h3 id="fpm-方式"><a href="#fpm-方式" class="headerlink" title="fpm 方式"></a>fpm 方式</h3><p>开启监听并调试(浏览器需要安装 <code>xdebug</code> 插件)<br><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/6.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/6.png"></a><br><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/7.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/7.png"></a></p>
+<h3 id="cli-方式"><a href="#cli-方式" class="headerlink" title="cli 方式"></a>cli 方式</h3><p><a href="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/8.png" class="gallery-item"><img src="/images/%E4%BD%BF%E7%94%A8-xdebug-%E8%B0%83%E8%AF%95-php-%E4%BB%A3%E7%A0%81/8.png"></a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>php需要安装xdebug扩展，并且设置编辑器监听的端口</li>
+<li>编辑器设置需要监听的端口，php可执行文件，调试的服务，目录映射等</li>
+<li>浏览器安装调试扩展</li>
+</ul>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/php/">php</a><a href="/tags/xdebug/">xdebug</a><a href="/tags/homestead/">homestead</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

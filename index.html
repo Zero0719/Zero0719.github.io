@@ -1,0 +1,663 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/06/24/使用-xdebug-调试-php-代码/"><span>使用 xdebug 调试 php 代码</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/06/24/使用-xdebug-调试-php-代码/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-06-24T03:37:02.000Z">
+          2024-06-24
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>php5.6</li>
+<li>xdebug 扩展</li>
+<li>phpstorm 编辑器</li>
+<li>homestead 虚拟机(注意要用超管用户启动)</li>
+</ul>
+<p>本文内容基于以上环境编写，其他环境下配置也基本大同小异，注意这篇文章的调试只在传统的 <code>php</code> 方式下，并不包括 <code>swoole</code> 这种环境。</p>
+<h2 id="安装-xdebug-扩展"><a href="#安装-xdebug-扩展" class="headerlink" title="安装 xdebug 扩展"></a>安装 xdebug 扩展</h2><p>安装方式可以参考 <code>swoole</code> 扩展的安装，只需要确保扩展安装好并启用即可</p>
+<a href="/2024/03/31/Homestead-%E6%B7%BB%E5%8A%A0-Swoole-%E6%89%A9%E5%B1%95/" title="Homestead 添加 Swoole 扩展">Homestead 添加 Swoole 扩展</a>
+
+<p><code>cli</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -m | grep xdebug</span><br></pre></td></tr></table></figure>
+
+<p><code>fpm</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phpinfo();</span><br></pre></td></tr></table></figure>
+        
+          <p><a class="excerpt-btn" href="/2024/06/24/使用-xdebug-调试-php-代码/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/php/">php</a><a href="/tags/xdebug/">xdebug</a><a href="/tags/homestead/">homestead</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/06/03/hyperf-web-单机应用不停机更新/"><span>hyperf web 单机应用不停机更新</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/06/03/hyperf-web-单机应用不停机更新/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-06-03T01:54:29.000Z">
+          2024-06-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p>在 <code>hyperf</code> 应用中如果修改了代码，我们就必须要重启应用才能使代码生效，但是生产环境中停机是会对服务产生巨大影响的，如果服务频繁的改动需要频繁的停机更新，这肯定是不合理的。有没有什么办法可以在服务能够继续使用的情况下更新代码呢，答案肯定是有的。</p>
+        
+          <p><a class="excerpt-btn" href="/2024/06/03/hyperf-web-单机应用不停机更新/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/hyperf/">hyperf</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/04/10/项目代码版本管理和发布-2/"><span>项目代码版本管理和发布-2</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/10/项目代码版本管理和发布-2/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-10T08:13:14.000Z">
+          2024-04-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><ol>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/" title="项目代码版本管理和发布-1">项目代码版本管理和发布-1</a></li>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/" title="项目代码版本管理和发布-2">项目代码版本管理和发布-2</a></li>
+</ol>
+<blockquote>
+<p>在上一篇 <a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/" title="项目代码版本管理和发布-1">项目代码版本管理和发布-1</a> 文章中我们部署了 <code>gitlab</code>，这篇我们在上篇的基础上部署 <code>jenkins</code> 用于发布项目。</p>
+</blockquote>
+<h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p><a target="_blank" rel="noopener" href="https://www.jenkins.io/doc/book/installing/linux/#debianubuntu">安装文档</a></p>
+<p>安装 <code>java</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-11-jdk</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \</span><br><span class="line">  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key</span><br><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]&quot; \</span><br><span class="line">  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \</span><br><span class="line">  /etc/apt/sources.list.d/jenkins.list &gt; /dev/null</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install jenkins</span><br></pre></td></tr></table></figure>
+        
+          <p><a class="excerpt-btn" href="/2024/04/10/项目代码版本管理和发布-2/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/gitlab/">gitlab</a><a href="/tags/jenkins/">jenkins</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/04/10/项目代码版本管理和发布-1/"><span>项目代码版本管理和发布-1</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/10/项目代码版本管理和发布-1/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-10T03:35:32.000Z">
+          2024-04-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><ol>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-1/" title="项目代码版本管理和发布-1">项目代码版本管理和发布-1</a></li>
+<li><a href="/2024/04/10/%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E5%8F%91%E5%B8%83-2/" title="项目代码版本管理和发布-2">项目代码版本管理和发布-2</a></li>
+</ol>
+<ul>
+<li>Gitlab 管理代码仓库</li>
+<li>Jenkins 管理项目发布</li>
+</ul>
+<p>准备一台虚拟机，我使用的是 <code>ubuntu20</code>, 8g内存，4核cpu</p>
+<p>假设我们的开发团队有三个人，一个是 <code>leader</code>，另外两个是普通 <code>developer</code>，他们分别负责 <code>projectA</code>, <code>projectB</code>，在这个背景下搭建一套代码管理和发布方案</p>
+        
+          <p><a class="excerpt-btn" href="/2024/04/10/项目代码版本管理和发布-1/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/gitlab/">gitlab</a><a href="/tags/jenkins/">jenkins</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/04/09/ELK-扩展篇/"><span>ELK 扩展篇</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/09/ELK-扩展篇/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-09T14:20:16.000Z">
+          2024-04-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p>为什么需要用 <code>filebeat</code>, <code>kafka</code> 扩展 <code>ELK</code> ，看看 <code>chatgpt</code> 的回答:</p>
+<blockquote>
+<ol>
+<li><strong>负载均衡和缓冲</strong>: Filebeat负责将日志数据发送到Kafka中间件，而Kafka充当缓冲层，能够平滑处理突发的数据流量和高峰时段的负载。这种负载均衡和缓冲机制可以有效地减少直接将日志数据发送到Elasticsearch时可能出现的压力和风险。</li>
+<li><strong>数据可靠性和持久性</strong>: Kafka提供了高度可靠的消息传递机制，能够保证数据不会丢失，并且支持数据持久化存储。这意味着即使Elasticsearch出现故障或需要维护时，数据仍然安全存储在Kafka中，不会丢失</li>
+<li><strong>解耦</strong>: 将Filebeat和Kafka引入ELK系统中，可以实现解耦，即日志收集与日志处理之间的解耦。这意味着系统的不同部分可以独立扩展和调整，而不会影响整个系统的稳定性</li>
+<li><strong>灵活性</strong>: 使用Kafka作为中间件，可以实现灵活的数据流动和处理。你可以根据需求调整Filebeat和Kafka的配置，以满足不同的性能和可用性要求</li>
+</ol>
+</blockquote>
+<p>这里基于上一篇文章 <a href="/2024/04/09/ELK-%E6%90%AD%E5%BB%BA/" title="ELK 搭建">ELK 搭建</a> 的基础上，我们加入 <code>kafka</code> 和 <code>filebeat</code></p>
+        
+          <p><a class="excerpt-btn" href="/2024/04/09/ELK-扩展篇/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/elk/">elk</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/04/09/ELK-搭建/"><span>ELK 搭建</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/04/09/ELK-搭建/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-04-09T03:16:57.000Z">
+          2024-04-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p><code>ELK</code> 是指由 <code>elasticsearch</code>, <code>logstash</code>, <code>kibana</code> 组成的日志管理解决方案</p>
+<ul>
+<li><code>elasticsearch</code> 是一个分布式的实时搜索和分析引擎，能够快速地存储、搜索和分析大量数据</li>
+<li><code>losstash</code> 能够从多种来源收集日志数据，对数据进行处理和过滤，然后将数据发送到Elasticsearch等目标存储中</li>
+<li><code>kibana</code> 提供了一个直观的Web界面，可以用来创建实时仪表板、图表和可视化，帮助用户更好地理解和分析日志数据</li>
+</ul>
+        
+          <p><a class="excerpt-btn" href="/2024/04/09/ELK-搭建/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/elk/">elk</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/03/31/Homestead-添加-Swoole-扩展/"><span>Homestead 添加 Swoole 扩展</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/03/31/Homestead-添加-Swoole-扩展/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-03-31T11:15:48.000Z">
+          2024-03-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p>源码安装方式适用于 <code>PHP</code> 所有的扩展</p>
+<ul>
+<li>php~7.4</li>
+<li>swoole~4.8.12</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换php为7.4版本</span></span><br><span class="line">php74</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定php是否已经安装了swoole</span></span><br><span class="line">php -m | grep swoole</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载swoole源码包</span></span><br><span class="line">wget https://wenda-1252906962.file.myqcloud.com/dist/swoole-src-4.8.12.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xzvf swoole-src-4.8.12.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> swoole-src-4.8.12/</span><br><span class="line"></span><br><span class="line">phpize</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面这些配置建议加入，省的后续需要重新编译扩展</span></span><br><span class="line"><span class="comment"># sudo apt-get install libcurl4-openssl-dev (--enable-swoole-curl 需要该支持)</span></span><br><span class="line">./configure --enable-openssl --enable-http2 --enable-swoole-curl</span><br><span class="line"></span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装成功以后我们可以看到对应扩展目录中有 swoole.so 文件</span></span><br><span class="line"><span class="built_in">ls</span> /usr/lib/php/20190902/ | grep swoole</span><br><span class="line"></span><br><span class="line">sudo vim /etc/php/7.4/mods-available/swoole.ini</span><br></pre></td></tr></table></figure>
+
+<p><code>swoole.ini</code> 加入以下内容</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">extension</span>=swoole.so</span><br><span class="line"><span class="attr">swoole.use_shortname</span>=<span class="literal">off</span></span><br></pre></td></tr></table></figure>
+
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/php/7.4/cli/conf.d</span><br><span class="line">sudo <span class="built_in">ln</span> -s /etc/php/7.4/mods-available/swoole.ini 20-swoole.ini</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出现 swoole 扩展，扩展到此结束，源码编译安装扩展的方式适用于任何 Linux 系统，也适用于其他的扩展，比如 redis，pdo 等等</span></span><br><span class="line">php -m | grep swoole</span><br></pre></td></tr></table></figure>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/PHP/">PHP</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Swoole/">Swoole</a><a href="/tags/Homestead/">Homestead</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/03/31/PHP-开发环境-Homestead/"><span>PHP 开发环境-Homestead</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/03/31/PHP-开发环境-Homestead/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-03-31T10:59:35.000Z">
+          2024-03-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p><code>Homestead</code> 是一个可以在本地快速部署一个 <code>Laravel</code> 项目的虚拟机盒子，它基于 <code>ubuntu</code> 的基础上，内置了 <code>php-fpm</code>, <code>nginx</code>, <code>mysql</code> 等等的服务，事实上可以有很多个本地<code>php</code>的开发部署方案，比如 <code>phpstudy</code>, <code>docker</code> 等，但是用虚拟机部署，更接近生产环境，可以使我们平时开发时对虚拟机的操作，如果有必要可以以同样的方式同步到生产环境中，大部分 <code>Linux</code> 的操作大同小异。</p>
+<p>虽然 <code>Homestead</code> 对外的官方搭档是 <code>Laravel</code> 项目，但是其实项目中内置了很多其他 <code>php</code> 框架对应的 <code>nginx</code> 配置，只需要修改一点配置文件，就可以使用 <code>proxy</code> 模式，或者生成适配 <code>thinkphp</code>, <code>yii</code> 等框架的配置，虚拟机中还部署了多个版本的 <code>php</code>，简单的指令就可以让你轻松切换 <code>php</code> 版本，所以该虚拟机盒子作为开发环境还是挺高效方便。</p>
+        
+          <p><a class="excerpt-btn" href="/2024/03/31/PHP-开发环境-Homestead/"><span>阅读全文</span></a></p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/PHP/">PHP</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Homestead/">Homestead</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2024/03/31/镜像源修改/"><span>镜像源修改</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/03/31/镜像源修改/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-03-31T10:56:37.000Z">
+          2024-03-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><h2 id="NPM-镜像源"><a href="#NPM-镜像源" class="headerlink" title="NPM 镜像源"></a>NPM 镜像源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改为淘宝镜像源</span></span><br><span class="line">npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="Composer-镜像源"><a href="#Composer-镜像源" class="headerlink" title="Composer 镜像源"></a>Composer 镜像源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局配置</span></span><br><span class="line">composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 项目内配置</span></span><br><span class="line">composer config repo.packagist composer https://mirrors.aliyun.com/composer/</span><br></pre></td></tr></table></figure>
+
+<h2 id="Yum-镜像源"><a href="#Yum-镜像源" class="headerlink" title="Yum 镜像源"></a>Yum 镜像源</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 备份</span></span><br><span class="line"><span class="built_in">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># centos8</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo</span><br><span class="line"></span><br><span class="line"><span class="comment"># centos7</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line"><span class="comment"># centos6</span></span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-vault-6.10.repo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成缓存</span></span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+
+<h2 id="Apt-镜像源"><a href="#Apt-镜像源" class="headerlink" title="Apt 镜像源"></a>Apt 镜像源</h2><p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.3e221b11eZQ3ZV">参考地址</a></p>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Linux/">Linux</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

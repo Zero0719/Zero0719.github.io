@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Homestead 添加 Swoole 扩展 | KayuHo | 永远热泪盈眶</title>
+
+  
+  <meta name="author" content="Kayuho">
+  
+
+  
+  <meta name="description" content="源码安装方式适用于 PHP 所有的扩展
+
+php~7.4
+swoole~4.8.12
+
+12345678910111213141516171819202122232425# 切换php为7.4版本php74# 确定php是否已经安装了swoolephp -m | grep swoole# 下载swo">
+  
+
+  
+  
+  <meta name="keywords" content="Swoole,Homestead">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Homestead 添加 Swoole 扩展"/>
+
+  <meta property="og:site_name" content="KayuHo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="KayuHo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">KayuHo</a>
+    </h1>
+    <p class="site-description">永远热泪盈眶</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Homestead 添加 Swoole 扩展</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2024/03/31/Homestead-添加-Swoole-扩展/" rel="bookmark">
+        <time class="entry-date published" datetime="2024-03-31T11:15:48.000Z">
+          2024-03-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css" /><div class=".article-gallery"><p>源码安装方式适用于 <code>PHP</code> 所有的扩展</p>
+<ul>
+<li>php~7.4</li>
+<li>swoole~4.8.12</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换php为7.4版本</span></span><br><span class="line">php74</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确定php是否已经安装了swoole</span></span><br><span class="line">php -m | grep swoole</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载swoole源码包</span></span><br><span class="line">wget https://wenda-1252906962.file.myqcloud.com/dist/swoole-src-4.8.12.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xzvf swoole-src-4.8.12.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> swoole-src-4.8.12/</span><br><span class="line"></span><br><span class="line">phpize</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面这些配置建议加入，省的后续需要重新编译扩展</span></span><br><span class="line"><span class="comment"># sudo apt-get install libcurl4-openssl-dev (--enable-swoole-curl 需要该支持)</span></span><br><span class="line">./configure --enable-openssl --enable-http2 --enable-swoole-curl</span><br><span class="line"></span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装成功以后我们可以看到对应扩展目录中有 swoole.so 文件</span></span><br><span class="line"><span class="built_in">ls</span> /usr/lib/php/20190902/ | grep swoole</span><br><span class="line"></span><br><span class="line">sudo vim /etc/php/7.4/mods-available/swoole.ini</span><br></pre></td></tr></table></figure>
+
+<p><code>swoole.ini</code> 加入以下内容</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">extension</span>=swoole.so</span><br><span class="line"><span class="attr">swoole.use_shortname</span>=<span class="literal">off</span></span><br></pre></td></tr></table></figure>
+
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/php/7.4/cli/conf.d</span><br><span class="line">sudo <span class="built_in">ln</span> -s /etc/php/7.4/mods-available/swoole.ini 20-swoole.ini</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出现 swoole 扩展，扩展到此结束，源码编译安装扩展的方式适用于任何 Linux 系统，也适用于其他的扩展，比如 redis，pdo 等等</span></span><br><span class="line">php -m | grep swoole</span><br></pre></td></tr></table></figure>
+</div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
+        var options = {
+            selector: '.gallery-item'
+        };
+        lightGallery(document.getElementsByClassName('.article-gallery')[0], options);
+        }</script>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/PHP/">PHP</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Swoole/">Swoole</a><a href="/tags/Homestead/">Homestead</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2024 Kayuho
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>
