@@ -773,3 +773,47 @@ meta: { title: 'dashboard', icon: 'dashboard' , affix: true }
 效果如图则已经添加成功
 
 ![](/images/vue-admin-template-中增加-TagViews-组件/1.png)
+
+
+修复标签刷新按钮跳转到404
+
+`router/index.js`
+```
+  // 增加这一段
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+```
+
+新增文件
+`src/views/redirect/index.vue`
+
+```
+<script>
+export default {
+  created() {
+    const { params, query } = this.$route
+    const { path } = params
+    this.$router.replace({ path: '/' + path, query })
+  },
+  render: function(h) {
+    return h() // avoid warning message
+  }
+}
+</script>
+
+```
